@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WheelsShare - Notifikasi</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link href="../assets/css/style.css" rel="stylesheet">
+
+    <style>
+        .notif-card {
+            border-bottom: 1px solid var(--ws-border);
+            padding: 1rem 1.25rem;
+            background-color: white;
+            transition: background-color 0.2s;
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .notif-card.unread {
+            background-color: #F8FAFC;
+        }
+
+        .notif-card:hover {
+            background-color: #F1F5F9;
+            cursor: pointer;
+        }
+
+        .notif-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notif-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--ws-primary);
+            border-radius: 50%;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="mobile-wrapper">
+        <div class="mobile-frame">
+
+            <!-- App Navbar -->
+            <nav class="app-navbar border-bottom shadow-sm">
+                <div class="d-flex align-items-center">
+                    <a href="home.html" class="text-dark text-decoration-none d-flex p-1 ms-n2">
+                        <span class="material-icons-round">arrow_back</span>
+                    </a>
+                    <h1 class="h6 fw-bold mb-0 ms-2">Notifikasi</h1>
+                </div>
+                <button class="btn btn-sm btn-link text-decoration-none text-primary-custom fw-bold px-0"
+                    id="markReadBtn">Tandai Dibaca</button>
+            </nav>
+
+            <!-- Main Content -->
+            <div class="mobile-content p-0 pb-5">
+
+                <div class="px-3 py-2 bg-light text-xs fw-bold text-muted-custom text-uppercase">Hari Ini</div>
+
+                <!-- Notif 1 (Unread) -->
+                <div class="notif-card unread">
+                    <div class="notif-icon-wrap bg-success bg-opacity-10 text-success">
+                        <span class="material-icons-round">check_circle</span>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h3 class="h6 fw-bold mb-0 text-dark">Pesanan Dikonfirmasi!</h3>
+                            <span class="text-xs text-muted-custom">10:42</span>
+                        </div>
+                        <p class="text-sm text-secondary mb-0 lh-sm">Hore! Host Budi Santoso telah menerima pesanan sewa
+                            Toyota Avanza Anda. Jangan lupa datang tepat waktu ya.</p>
+                    </div>
+                    <div class="notif-dot"></div>
+                </div>
+
+                <!-- Notif 2 -->
+                <div class="notif-card">
+                    <div class="notif-icon-wrap bg-primary bg-opacity-10 text-primary-custom">
+                        <span class="material-icons-round">local_offer</span>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h3 class="h6 fw-bold mb-0 text-dark">Promo Akhir Pekan</h3>
+                            <span class="text-xs text-muted-custom">08:00</span>
+                        </div>
+                        <p class="text-sm text-secondary mb-0 lh-sm">Gunakan kode WEEKEND20 untuk diskon 20% sewa mobil
+                            SUV hari ini. Kuota terbatas!</p>
+                    </div>
+                </div>
+
+                <div class="px-3 py-2 bg-light text-xs fw-bold text-muted-custom text-uppercase mt-2">Kemarin</div>
+
+                <!-- Notif 3 -->
+                <div class="notif-card">
+                    <div class="notif-icon-wrap bg-warning bg-opacity-10 text-warning">
+                        <span class="material-icons-round">security</span>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h3 class="h6 fw-bold mb-0 text-dark">Verifikasi Akun Berhasil</h3>
+                            <span class="text-xs text-muted-custom">Kemarin</span>
+                        </div>
+                        <p class="text-sm text-secondary mb-0 lh-sm">Selamat! Dokumen E-KYC Anda telah diverifikasi.
+                            Sekarang Anda bisa mulai menyewa mobil.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const markReadBtn = document.getElementById('markReadBtn');
+
+            // Simulasi interaksi "Tandai Dibaca"
+            if (markReadBtn) {
+                markReadBtn.addEventListener('click', function () {
+                    const unreadItems = document.querySelectorAll('.notif-card.unread');
+                    if (unreadItems.length === 0) return;
+
+                    unreadItems.forEach(el => {
+                        el.classList.remove('unread');
+                        const dot = el.querySelector('.notif-dot');
+                        if (dot) dot.remove();
+                    });
+
+                    App.toast.fire({
+                        icon: 'success',
+                        title: 'Semua notifikasi telah dibaca'
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

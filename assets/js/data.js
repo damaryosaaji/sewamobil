@@ -14,53 +14,53 @@ const DATA = {
   ],
 
   cars: [
-    { 
-      id: 'CAR001', hostId: 'USR005', 
-      name: 'Toyota Avanza G', year: 2023, 
-      category: 'MPV', seats: 7, transmission: 'Automatic', 
-      price: 350000, rating: 4.8, reviews: 32, 
+    {
+      id: 'CAR001', hostId: 'USR005',
+      name: 'Toyota Avanza G', year: 2023,
+      category: 'MPV', seats: 7, transmission: 'Automatic',
+      price: 350000, rating: 4.8, reviews: 32,
       location: 'Setiabudi, Jakarta Selatan',
-      image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800', 
+      image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800',
       gallery: ['https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800'],
       status: 'available', licensePlate: 'B 1234 XYZ'
     },
-    { 
-      id: 'CAR002', hostId: 'USR006', 
-      name: 'Honda Brio RS', year: 2022, 
-      category: 'City Car', seats: 5, transmission: 'Automatic', 
-      price: 280000, rating: 4.9, reviews: 85, 
+    {
+      id: 'CAR002', hostId: 'USR006',
+      name: 'Honda Brio RS', year: 2022,
+      category: 'City Car', seats: 5, transmission: 'Automatic',
+      price: 280000, rating: 4.9, reviews: 85,
       location: 'Kuta, Bali',
-      image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800', 
+      image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800',
       gallery: ['https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800'],
       status: 'available', licensePlate: 'DK 5678 ABC'
     },
-    { 
-      id: 'CAR003', hostId: 'USR005', 
-      name: 'Mitsubishi Xpander Ultimate', year: 2023, 
-      category: 'MPV', seats: 7, transmission: 'Automatic', 
-      price: 450000, rating: 4.7, reviews: 18, 
+    {
+      id: 'CAR003', hostId: 'USR005',
+      name: 'Mitsubishi Xpander Ultimate', year: 2023,
+      category: 'MPV', seats: 7, transmission: 'Automatic',
+      price: 450000, rating: 4.7, reviews: 18,
       location: 'Dago, Bandung',
-      image: 'https://images.unsplash.com/photo-1563720360172-67b8f3dce741?auto=format&fit=crop&q=80&w=800', 
+      image: 'https://images.unsplash.com/photo-1563720360172-67b8f3dce741?auto=format&fit=crop&q=80&w=800',
       gallery: ['https://images.unsplash.com/photo-1563720360172-67b8f3dce741?auto=format&fit=crop&q=80&w=800'],
       status: 'rented', rentedUntil: '2024-01-05', licensePlate: 'D 9012 DEF'
     },
-    { 
-      id: 'CAR004', hostId: 'USR006', 
-      name: 'Suzuki Ertiga Hybrid', year: 2023, 
-      category: 'MPV', seats: 7, transmission: 'Automatic', 
-      price: 380000, rating: 4.6, reviews: 42, 
+    {
+      id: 'CAR004', hostId: 'USR006',
+      name: 'Suzuki Ertiga Hybrid', year: 2023,
+      category: 'MPV', seats: 7, transmission: 'Automatic',
+      price: 380000, rating: 4.6, reviews: 42,
       location: 'Kuta, Bali',
-      image: 'https://images.unsplash.com/photo-1606149059549-b0ebc8163f5d?auto=format&fit=crop&q=80&w=800', 
-      gallery: ['https://images.unsplash.com/photo-1606149059549-b0ebc8163f5d?auto=format&fit=crop&q=80&w=800'],
+      image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800',
+      gallery: ['https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800'],
       status: 'available', licensePlate: 'DK 3456 GHI'
     },
-    { 
-      id: 'CAR005', hostId: 'USR006', 
-      name: 'Toyota Innova Reborn', year: 2021, 
-      category: 'MPV Premium', seats: 8, transmission: 'Automatic', 
-      price: 550000, rating: 4.9, reviews: 105, 
+    {
+      id: 'CAR005', hostId: 'USR006',
+      name: 'Toyota Innova Reborn', year: 2021,
+      category: 'MPV Premium', seats: 8, transmission: 'Automatic',
+      price: 550000, rating: 4.9, reviews: 105,
       location: 'Seminyak, Bali',
-      image: 'https://images.unsplash.com/photo-1626668893632-6f3a4466d22f?auto=format&fit=crop&q=80&w=800', 
+      image: 'https://images.unsplash.com/photo-1626668893632-6f3a4466d22f?auto=format&fit=crop&q=80&w=800',
       gallery: ['https://images.unsplash.com/photo-1626668893632-6f3a4466d22f?auto=format&fit=crop&q=80&w=800'],
       status: 'available', licensePlate: 'DK 7890 JKL'
     }
