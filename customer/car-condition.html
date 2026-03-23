@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Car Condition Tracker</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .phase-badge {
+      display: inline-flex; align-items: center; gap: 4px; padding: 6px 16px;
+      border-radius: 100px; font-weight: 700; font-size: 13px;
+      background: var(--ws-primary); color: white;
+    }
+
+    /* Condition Diagram styling */
+    .condition-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background-color: #F8FAFC;
+      border: 1px solid var(--ws-border);
+      border-radius: var(--ws-radius-lg);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    
+    .car-outline {
+      width: 100%; height: 100%; object-fit: contain; padding: 20px;
+      opacity: 0.7; mix-blend-mode: multiply; pointer-events: none;
+    }
+
+    .hotspot {
+      position: absolute;
+      width: 24px; height: 24px;
+      background-color: var(--ws-danger);
+      border: 2px solid white; border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer; box-shadow: var(--ws-shadow);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 12px; font-weight: bold;
+    }
+    
+    .hotspot.new {
+      background-color: var(--ws-primary);
+      animation: pulse 1.5s infinite;
+    }
+
+    /* Photo Grid */
+    .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    .photo-box {
+      aspect-ratio: 1; border: 2px dashed var(--ws-border);
+      border-radius: var(--ws-radius-md); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;
+    }
+    .photo-box:hover, .photo-box.active {
+      border-color: var(--ws-primary); background-color: var(--ws-primary-light);
+    }
+    .photo-box.has-img { border-style: solid; border-color: var(--ws-border); }
+    .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+    
+    /* Digital Signature */
+    .signature-pad {
+      width: 100%; height: 120px; background: white;
+      border: 1px solid var(--ws-border); border-radius: var(--ws-radius-md);
+      margin-bottom: 16px; cursor: crosshair;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+    
+    <nav class="app-navbar border-bottom">
+      <div class="d-flex align-items-center">
+        <a href="home.html" class="text-dark text-decoration-none d-flex p-1 ms-n2">
+          <span class="material-icons-round">close</span>
+        </a>
+        <h1 class="h6 fw-bold mb-0 ms-2">Condition Tracker</h1>
+      </div>
+      <div class="phase-badge bg-primary">Serah Terima</div>
+    </nav>
+
+    <div class="mobile-content container pt-4">
+
+      <div class="d-flex justify-content-between align-items-end mb-3">
+        <div>
+          <h2 class="h6 fw-extrabold mb-1">Cek Bodi Kendaraan</h2>
+          <p class="text-xs text-muted-custom mb-0">Klik pada area bodi untuk menandai titik kerusakan atau lecet.</p>
+        </div>
+        <button class="btn btn-outline-danger btn-sm text-xs py-1 px-2 border-0" onclick="clearHotspots()">Reset</button>
+      </div>
+
+      <!-- CAR DIAGRAM UI -->
+      <div class="condition-wrapper" id="diagramWrapper" onclick="addHotspot(event)">
+        <!-- Menggunakan SVG outline dummy dari web -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Outline-car-top-view.svg" alt="Car Vector" class="car-outline">
+        
+        <!-- Existing Damage (Dummy Data) -->
+        <div class="hotspot" style="left: 20%; top: 30%;" onclick="viewDamage(event, 'Goresan memanjang 5cm')">1</div>
+        <div class="hotspot" style="left: 80%; top: 75%;" onclick="viewDamage(event, 'Penyok kecil akibat benturan tiang')">2</div>
+      </div>
+
+      <h2 class="h6 fw-extrabold mb-3">Foto Bukti Fisik <span class="text-danger">*</span></h2>
+      <div class="photo-grid">
+        <div class="photo-box" onclick="capturePhoto(this, 'Depan')">
+          <span class="material-icons-round text-muted mb-1">add_a_photo</span>
+          <span class="text-xs fw-semibold text-muted-custom">Depan</span>
+        </div>
+        <div class="photo-box" onclick="capturePhoto(this, 'Kanan')">
+          <span class="material-icons-round text-muted mb-1">add_a_photo</span>
+          <span class="text-xs fw-semibold text-muted-custom">Kanan</span>
+        </div>
+        <div class="photo-box" onclick="capturePhoto(this, 'Kiri')">
+          <span class="material-icons-round text-muted mb-1">add_a_photo</span>
+          <span class="text-xs fw-semibold text-muted-custom">Kiri</span>
+        </div>
+        <div class="photo-box" onclick="capturePhoto(this, 'Belakang')">
+          <span class="material-icons-round text-muted mb-1">add_a_photo</span>
+          <span class="text-xs fw-semibold text-muted-custom">Belakang</span>
+        </div>
+        <div class="photo-box" onclick="capturePhoto(this, 'Interior')">
+          <span class="material-icons-round text-muted mb-1">add_a_photo</span>
+          <span class="text-xs fw-semibold text-muted-custom">Interior</span>
+        </div>
+        <div class="photo-box" onclick="capturePhoto(this, 'Dashboard')">
+          <span class="material-icons-round text-muted mb-1">add_a_photo</span>
+          <span class="text-xs fw-semibold text-Dashcustom">Dasbor</span>
+        </div>
+      </div>
+
+      <h2 class="h6 fw-extrabold mb-3">Tanda Tangan Digital <span class="text-danger">*</span></h2>
+      <div class="signature-pad d-flex align-items-center justify-content-center text-muted-custom text-xs" id="sigPad" onclick="signPad()">
+        Ketuk untuk menandatangani
+      </div>
+      
+      <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" id="agreeCheck">
+        <label class="form-check-label text-xs text-muted-custom" for="agreeCheck">
+          Saya menyatakan bahwa kondisi mobil di atas telah diperiksa bersama Mitra dan sesuai dengan kenyataan.
+        </label>
+      </div>
+
+      <button type="button" class="btn btn-primary w-100 rounded-pill shadow-sm mb-4" onclick="submitCondition()">
+        Simpan & Konfirmasi Serah Terima
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+  let hotspotCounter = 3;
+
+  function addHotspot(e) {
+    if (e.target.classList.contains('hotspot')) return; // Jangan tumpuk
+    
+    // Calculate percentage coordinates
+    const rect = document.getElementById('diagramWrapper').getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    App.swal.fire({
+      title: 'Catat Kerusakan Baru',
+      input: 'text',
+      inputPlaceholder: 'Misal: Goresan halus kena ranting',
+      showCancelButton: true,
+      confirmButtonText: 'Simpan',
+      reverseButtons: true,
+      inputValidator: (value) => { if (!value) return 'Deskripsi tidak boleh kosong!' }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const spot = document.createElement('div');
+        spot.className = 'hotspot new';
+        spot.style.left = x + '%';
+        spot.style.top = y + '%';
+        spot.textContent = hotspotCounter++;
+        spot.onclick = (ev) => viewDamage(ev, result.value);
+        document.getElementById('diagramWrapper').appendChild(spot);
+      }
+    });
+  }
+
+  function viewDamage(e, desc) {
+    e.stopPropagation();
+    App.swal.fire({
+      icon: 'info',
+      title: 'Detail Kerusakan',
+      text: desc,
+      confirmButtonText: 'Tutup'
+    });
+  }
+
+  function clearHotspots() {
+    document.querySelectorAll('.hotspot.new').forEach(e => e.remove());
+    hotspotCounter = 3; // Reset ke setlah dummy
+  }
+
+  function capturePhoto(el, sisi) {
+    App.swal.fire({
+      title: 'Membuka Kamera...',
+      html: `Ambil foto bagian <b>${sisi}</b> kendaraan.`,
+      timer: 1500,
+      showConfirmButton: false
+    }).then(() => {
+      // Simulate photo taken
+      el.innerHTML = `<img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=400">`;
+      el.classList.add('has-img');
+    });
+  }
+
+  function signPad() {
+    const pad = document.getElementById('sigPad');
+    pad.innerHTML = `<span style="font-family: 'Brush Script MT', cursive; font-size: 32px; color: var(--ws-primary);">Andi Kusuma</span>`;
+    pad.style.background = '#F8FAFC';
+  }
+
+  function submitCondition() {
+    if (!document.getElementById('agreeCheck').checked) {
+      App.toast.fire({ icon: 'warning', title: 'Centang persetujuan terlebih dahulu' });
+      return;
+    }
+
+    App.swal.fire({
+      title: 'Konfirmasi Check-In?',
+      text: 'Data kondisi akan disimpan permanen untuk referensi saat check-out pengembalian.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Konfirmasi',
+      cancelButtonText: 'Cek Ulang',
+      reverseButtons: true
+    }).then((result) => {
+      if(result.isConfirmed) {
+        App.swal.fire({
+          icon: 'success',
+          title: 'Mobil Berhasil Diserahterimakan!',
+          text: 'Platform berhasil mencatat waktu dan kondisi. Selamat menikmati perjalanan Anda!',
+          confirmButtonText: 'Ke Beranda'
+        }).then(() => {
+          window.location.href = 'home.html';
+        });
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

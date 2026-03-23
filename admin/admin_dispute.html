@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Admin Pusat Sengketa</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .case-card {
+      transition: all 0.2s; cursor: pointer;
+    }
+    .case-card:hover { border-color: var(--ws-primary); }
+    .case-card.active { border-color: var(--ws-primary); background-color: var(--ws-primary-light); }
+    
+    .chat-box { height: 400px; overflow-y: auto; background: var(--ws-bg); border-radius: var(--ws-radius-md); padding: 1rem; }
+    .msg-bubble { max-width: 80%; padding: 0.75rem 1rem; border-radius: 12px; margin-bottom: 0.5rem; font-size: 0.85rem; }
+    .msg-left { background: white; border: 1px solid var(--ws-border); border-bottom-left-radius: 2px; align-self: flex-start; }
+    .msg-right { background: #DCF8C6; border: 1px solid #BEE4A6; border-bottom-right-radius: 2px; align-self: flex-end; }
+    
+    .evidence-thumb { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; cursor: zoom-in; }
+  </style>
+</head>
+<body>
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar shadow-sm flex-shrink-0">
+    <!-- ... (Same sidebar structure as admin_dashboard) ... -->
+    <div class="sidebar-brand">
+      <div style="width: 32px; height: 32px; background: var(--ws-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+        <span class="material-icons-round fs-6">directions_car</span>
+      </div>
+      <span class="h6 fw-extrabold mb-0 text-primary-custom">WheelsShare Admin</span>
+    </div>
+    <div class="sidebar-nav">
+      <a href="admin_dashboard.html" class="nav-item"><span class="material-icons-round">space_dashboard</span> Ringkasan</a>
+      <a href="admin_kyc.html" class="nav-item"><span class="material-icons-round">how_to_reg</span> Pusat KYC</a>
+      <a href="admin_dispute.html" class="nav-item active"><span class="material-icons-round">gavel</span> Sengketa</a>
+      <a href="admin_users.html" class="nav-item"><span class="material-icons-round">group</span> Pengguna</a>
+    </div>
+    <div class="mt-auto p-4"><button class="btn btn-outline-danger w-100 fw-semibold" onclick="App.logout()">Keluar</button></div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="admin-main">
+    <header class="admin-topbar shadow-sm">
+      <div class="fw-bold fs-5">Manajemen Sengketa (Dispute Resolution)</div>
+    </header>
+
+    <div class="admin-content bg-light row g-0 m-0 p-0 h-100">
+      
+      <!-- List Cases -->
+      <div class="col-md-4 border-end p-3 bg-white h-100 overflow-auto">
+        <h3 class="h6 fw-bold mb-3 px-1">Kasus Aktif</h3>
+        <div id="caseList">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Detail Case -->
+      <div class="col-md-8 p-4 h-100 overflow-auto d-flex flex-column" id="caseDetail">
+        <div class="text-center text-muted-custom my-auto">
+          <span class="material-icons-round fs-1 mb-2">forum</span>
+          <p>Pilih kasus di panel kiri untuk melihat detail sengketa dan riwayat obrolan.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const listCont = document.getElementById('caseList');
+  // Load data dari data.js
+  const disputes = WS_DATA.disputes;
+
+  listCont.innerHTML = disputes.map((d, index) => {
+    let statusBadge = d.status === 'investigating' ? 'bg-warning text-dark' : 'bg-success';
+    let statusText = d.status === 'investigating' ? 'Investigasi' : 'Selesai';
+    
+    // Cari nama pelapor
+    let repName = WS_DATA.users.find(u => u.id === d.reporterId)?.name || d.reporterId;
+
+    return `
+      <div class="ws-card p-3 mb-2 case-card border ${index === 0 ? 'active' : ''}" onclick="loadCase('${d.id}', this)">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="badge ${statusBadge}">${statusText}</span>
+          <span class="text-xs text-muted-custom">${formatDate(d.date)}</span>
+        </div>
+        <div class="fw-bold text-sm mb-1">${d.type}</div>
+        <div class="text-xs text-muted-custom">Pelapor: ${repName} • ${d.bookingId}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Auto load first target
+  if(disputes.length > 0) loadCase(disputes[0].id, document.querySelector('.case-card'));
+});
+
+function loadCase(id, el) {
+  // Toggle UI Active
+  if(el) {
+    document.querySelectorAll('.case-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  const d = WS_DATA.disputes.find(c => c.id === id);
+  const reporter = WS_DATA.users.find(u => u.id === d.reporterId);
+  const reported = WS_DATA.users.find(u => u.id === d.reportedId);
+  const detailCont = document.getElementById('caseDetail');
+
+  let activeActions = d.status === 'investigating' ? `
+    <div class="d-flex gap-2 mt-4 pt-3 border-top">
+      <button class="btn btn-primary" onclick="resolveModal('${id}')">Tentukan Resolusi Sengketa</button>
+      <button class="btn btn-outline-danger">Eskalasi ke Asuransi All-Risk</button>
+    </div>
+  ` : `
+    <div class="mt-4 pt-3 border-top">
+      <div class="alert alert-success d-flex align-items-center gap-2 m-0 border-0">
+        <span class="material-icons-round">check_circle</span>
+        <div>Kasus ini telah ditutup. Resolusi: <b>${d.resolution}</b>.</div>
+      </div>
+    </div>
+  `;
+
+  detailCont.innerHTML = `
+    <div class="d-flex justify-content-between align-items-start mb-4">
+      <div>
+        <h2 class="h5 fw-bold mb-1">Detail Kasus: ${id}</h2>
+        <div class="text-sm text-muted-custom">Terkait Pesanan: <a href="javascript:App.swal.fire('Detail Pesanan', 'Rincian pesanan fiktif untuk booking ID ' + d.bookingId, 'info')">${d.bookingId}</a></div>
+      </div>
+      <span class="badge ${d.status === 'investigating' ? 'bg-warning text-dark' : 'bg-success'} fs-6">${d.status === 'investigating' ? 'Dalam Investigasi' : 'Selesai'}</span>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <label class="text-xs fw-bold text-muted-custom text-uppercase mb-2">Pihak Pelapor</label>
+        <div class="d-flex align-items-center gap-2 ws-card p-2 border-0 bg-white shadow-sm">
+          <img src="${reporter.avatar}" width="40" height="40" class="rounded-circle">
+          <div>
+            <div class="fw-bold text-sm lh-1">${reporter.name}</div>
+            <div class="text-xs text-muted-custom">${reporter.role}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="text-xs fw-bold text-muted-custom text-uppercase mb-2">Pihak Terlapor</label>
+        <div class="d-flex align-items-center gap-2 ws-card p-2 border-0 bg-white shadow-sm">
+          <img src="${reported.avatar}" width="40" height="40" class="rounded-circle">
+          <div>
+            <div class="fw-bold text-sm lh-1">${reported.name}</div>
+            <div class="text-xs text-muted-custom">${reported.role}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bukti / Foto -->
+    <h3 class="h6 fw-bold mb-2">Bukti Lampiran Fisik (Condition Tracker)</h3>
+    <div class="d-flex gap-2 mb-4">
+      <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=200" class="evidence-thumb border" onclick="viewEv()">
+      <div class="text-sm text-muted-custom ms-2 d-flex flex-column justify-content-center">Terdapat goresan sepanjang 5cm di bumper depan yang tidak ada saat Check-In.</div>
+    </div>
+
+    <!-- Chat Simulator -->
+    <h3 class="h6 fw-bold mb-2">Log Diskusi (Mediasi)</h3>
+    <div class="chat-box d-flex flex-column shadow-sm border border-light">
+      <div class="msg-bubble msg-left">
+        <div class="fw-bold text-xs text-primary mb-1">${reporter.name} (Pelapor)</div>
+        Halo Admin, penyewa mengembalikan mobil dengan lecet di bemper depan. Saya punya buktinya di tracker.
+      </div>
+      <div class="msg-bubble msg-right">
+        <div class="fw-bold text-xs text-success mb-1">${reported.name} (Terlapor)</div>
+        Maaf mas, itu tadinya keserempet sedikit pas parkir. Saya siap ganti rugi bengkelnya.
+      </div>
+      <div class="msg-bubble msg-left" style="background:#F1F5F9; align-self:center; color:#64748B;">
+        <span class="material-icons-round text-xs align-middle">admin_panel_settings</span> WheelsShare Admin bergabung dalam percakapan
+      </div>
+      <div class="msg-bubble msg-left" style="background:white; align-self:center; border: 1px solid var(--ws-primary);">
+        Baik, kedua belah pihak. Kami telah melihat bukti. Kami akan merilis dana asuransi atau memproses denda ke kartu kredit penyewa.
+      </div>
+    </div>
+
+    ${activeActions}
+  `;
+}
+
+function viewEv() {
+  App.swal.fire({
+    imageUrl: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=600',
+    title: 'Bukti Foto Tracker',
+    showCloseButton: true, showConfirmButton: false
+  });
+}
+
+function resolveModal(id) {
+  App.swal.fire({
+    title: 'Tentukan Resolusi',
+    input: 'select',
+    inputOptions: {
+      'denda_cc': 'Tarik Denda via Kartu Kredit Terlapor',
+      'asuransi': 'Klaim Asuransi All-Risk (Premi Proteksi)',
+      'damai': 'Diselesaikan secara kekeluargaan (Tutup Kasus)'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Terapkan Resolusi',
+  }).then((res) => {
+    if(res.isConfirmed) {
+      App.toast.fire({ icon: 'success', title: 'Resolusi Diterapkan' });
+      // Reload UI
+      setTimeout(() => location.reload(), 1000);
+    }
+  });
+}
+</script>
+
+</body>
+</html>

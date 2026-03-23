@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SewaMobil – Onboarding</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+    body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .slide { display: none; }
+    .slide.active { display: flex; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: all 0.3s; }
+    .dot.active { width: 24px; background: white; }
+    .hero-emoji { font-size: 100px; animation: pulse 3s infinite; }
+    .hero-title { font-size: 28px; font-weight: 800; color: white; margin-bottom: 12px; }
+    .hero-desc { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; }
+    .bottom-sheet { background: white; border-radius: 28px 28px 0 0; padding: 32px 28px 48px; }
+  </style>
+</head>
+<body>
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+
+    <!-- Slide 1 -->
+    <div class="slide onboarding-bg active" id="slide-1">
+      <div class="status-bar light" style="position:absolute;top:0;left:0;right:0;z-index:10;">
+        <span>19:04</span>
+        <div class="status-icons">🔋📶</div>
+      </div>
+      <div class="onboarding-hero">
+        <div class="hero-emoji mb-20">🚗</div>
+        <h1 class="hero-title">Sewa Mobil Dari Tetangga</h1>
+        <p class="hero-desc">Platform C2C pertama untuk sewa mobil dari pemilik langsung. Lebih terjangkau, lebih lokal.</p>
+      </div>
+      <div class="bottom-sheet">
+        <div class="flex justify-center gap-8 mb-20">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <button class="btn btn-primary btn-full btn-lg" onclick="nextSlide(2)">Selanjutnya →</button>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide onboarding-bg" id="slide-2">
+      <div class="status-bar light" style="position:absolute;top:0;left:0;right:0;z-index:10;">
+        <span>19:04</span>
+        <div class="status-icons">🔋📶</div>
+      </div>
+      <div class="onboarding-hero">
+        <div class="hero-emoji mb-20">🛡️</div>
+        <h1 class="hero-title">Aman & Terpercaya</h1>
+        <p class="hero-desc">Setiap pengguna terverifikasi KTP & SIM. Sistem Car Condition Tracker mencatat kondisi mobil sebelum & sesudah sewa.</p>
+      </div>
+      <div class="bottom-sheet">
+        <div class="flex justify-center gap-8 mb-20">
+          <div class="dot"></div>
+          <div class="dot active"></div>
+          <div class="dot"></div>
+        </div>
+        <button class="btn btn-primary btn-full btn-lg" onclick="nextSlide(3)">Selanjutnya →</button>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide onboarding-bg" id="slide-3">
+      <div class="status-bar light" style="position:absolute;top:0;left:0;right:0;z-index:10;">
+        <span>19:04</span>
+        <div class="status-icons">🔋📶</div>
+      </div>
+      <div class="onboarding-hero">
+        <div class="hero-emoji mb-20">💰</div>
+        <h1 class="hero-title">Penghasilan Tambahan</h1>
+        <p class="hero-desc">Punya mobil nganggur? Jadikan aset produktif! Daftar jadi Mitra dan mulai raih passive income hari ini.</p>
+      </div>
+      <div class="bottom-sheet">
+        <div class="flex justify-center gap-8 mb-20">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot active"></div>
+        </div>
+        <a href="login.html" class="btn btn-primary btn-full btn-lg" style="margin-bottom:12px;">Mulai Menyewa 🚀</a>
+        <a href="../mitra/dashboard.html" class="btn btn-outline btn-full btn-lg">Daftar Sebagai Mitra</a>
+        <p class="text-center text-sm text-muted mt-16">Sudah punya akun? <a href="login.html" class="text-primary-color font-semibold">Masuk Sekarang</a></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function nextSlide(num) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.getElementById('slide-' + num).classList.add('active');
+}
+</script>
+</body>
+</html>

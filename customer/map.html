@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Peta Lokasi</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+    
+    <nav class="app-navbar border-bottom shadow-sm">
+      <div class="d-flex align-items-center">
+        <h1 class="h6 fw-bold mb-0">Eksplorasi Peta</h1>
+      </div>
+      <div class="search-wrapper" style="width: 200px;">
+        <span class="material-icons-round text-sm">search</span>
+        <input type="text" class="form-control form-control-sm bg-light" placeholder="Cari lokasi...">
+      </div>
+    </nav>
+
+    <div class="mobile-content p-0 position-relative">
+      <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600&h=800" 
+           alt="Map Background" class="img-fluid w-100 h-100 object-fit-cover" style="opacity: 0.8;">
+      
+      <!-- Fake Pin -->
+      <div class="position-absolute top-50 start-50 translate-middle text-center" style="cursor: pointer;" onclick="App.swal.fire('Toyota Avanza', 'Tersedia di lokasi ini. Rp 350.000/hari', 'info')">
+        <span class="material-icons-round text-primary-custom" style="font-size: 48px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">location_on</span>
+        <div class="badge bg-white text-dark shadow-sm fw-bold">1 Unit Tersedia</div>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+      <a href="home.html" class="bottom-nav-item">
+        <span class="material-icons-round">home</span> Home
+      </a>
+      <a href="map.html" class="bottom-nav-item active">
+        <span class="material-icons-round">explore</span> Peta
+      </a>
+      <a href="orders.html" class="bottom-nav-item position-relative">
+        <span class="material-icons-round">receipt_long</span> Pesanan
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem; padding: 0.2rem 0.4rem;">1</span>
+      </a>
+      <a href="profile.html" class="bottom-nav-item">
+        <span class="material-icons-round">person</span> Profil
+      </a>
+    </nav>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/app.js"></script>
+
+</body>
+</html>

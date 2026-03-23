@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SewaMobil Admin – Manajemen Pengguna</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">
+        <div class="logo-icon">🚗</div>
+        <div class="logo-text">Sewa<span>Mobil</span></div>
+      </div>
+    </div>
+    <nav class="sidebar-menu">
+      <div class="sidebar-section-title">Dashboard</div>
+      <a href="overview.html" class="sidebar-item"><span class="icon">📊</span><span class="label">Overview & Analitik</span></a>
+      <div class="sidebar-section-title">Verifikasi</div>
+      <a href="kyc-center.html" class="sidebar-item"><span class="icon">🪪</span><span class="label">Pusat KYC</span><span class="badge">2</span></a>
+      <div class="sidebar-section-title">Operasional</div>
+      <a href="disputes.html" class="sidebar-item"><span class="icon">⚖️</span><span class="label">Manajemen Sengketa</span><span class="badge">1</span></a>
+      <a href="users.html" class="sidebar-item active"><span class="icon">👥</span><span class="label">Manajemen Pengguna</span></a>
+      <div class="sidebar-section-title">Lainnya</div>
+      <a href="../index.html" class="sidebar-item"><span class="icon">🏠</span><span class="label">Kembali ke Portal</span></a>
+      <a href="../customer/login.html" class="sidebar-item"><span class="icon">🚪</span><span class="label">Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="admin-content">
+    <div class="admin-topbar">
+      <div>
+        <div class="topbar-title">Manajemen Pengguna</div>
+        <div class="topbar-subtitle">Pantau, kelola, dan moderasi seluruh akun</div>
+      </div>
+      <div class="topbar-actions">
+        <div style="position:relative;">
+          <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);">🔍</span>
+          <input type="text" class="form-control" placeholder="Cari nama / email..." style="padding-left:34px;width:240px;" id="searchInput" oninput="filterUsers()" />
+        </div>
+        <select class="form-control" style="width:140px;" id="roleFilter" onchange="filterUsers()">
+          <option value="">Semua Role</option>
+          <option value="customer">Customer</option>
+          <option value="mitra">Mitra</option>
+        </select>
+        <select class="form-control" style="width:140px;" id="statusFilter" onchange="filterUsers()">
+          <option value="">Semua Status</option>
+          <option value="active">Aktif</option>
+          <option value="banned">Banned</option>
+        </select>
+        <div class="avatar">SA</div>
+      </div>
+    </div>
+
+    <div class="admin-main">
+      <!-- Stats -->
+      <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="stat-card">
+          <div class="stat-icon blue">👥</div>
+          <div><div class="stat-value">1.890</div><div class="stat-label">Total Pengguna</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">🚶</div>
+          <div><div class="stat-value">1.452</div><div class="stat-label">Customer Aktif</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">🚗</div>
+          <div><div class="stat-value">438</div><div class="stat-label">Mitra Terdaftar</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">🚫</div>
+          <div><div class="stat-value">12</div><div class="stat-label">Akun Banned</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">⌚</div>
+          <div><div class="stat-value">2</div><div class="stat-label">KYC Pending</div></div>
+        </div>
+      </div>
+
+      <!-- User Table -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Daftar Pengguna</span>
+          <span style="font-size:13px;color:var(--text-muted);" id="countLabel">6 pengguna ditampilkan</span>
+        </div>
+        <div class="table-wrap">
+          <table id="userTable">
+            <thead>
+              <tr>
+                <th>Pengguna</th>
+                <th>Role</th>
+                <th>No. HP</th>
+                <th>KYC</th>
+                <th>Rating</th>
+                <th>Bergabung</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal: User Detail -->
+<div class="modal-overlay" id="userModal" style="display:none;">
+  <div class="modal-box" style="max-width:500px;">
+    <div class="flex justify-between items-center mb-20">
+      <h2 style="font-size:18px;font-weight:800;" id="modalName"></h2>
+      <button onclick="closeModal()" style="background:none;border:none;font-size:20px;cursor:pointer;">×</button>
+    </div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script src="../assets/js/data.js"></script>
+<script>
+function renderTable(data) {
+  const tbody = document.getElementById('userTableBody');
+  document.getElementById('countLabel').textContent = `${data.length} pengguna ditampilkan`;
+  tbody.innerHTML = data.map(u => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="avatar" style="width:34px;height:34px;font-size:12px;flex-shrink:0;">${u.avatar}</div>
+          <div>
+            <div style="font-weight:600;font-size:13px;">${u.name}</div>
+            <div style="font-size:11px;color:var(--text-muted);">${u.email}</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <span class="badge-pill ${u.role === 'mitra' ? 'badge-info' : 'badge-gray'}">${u.role === 'mitra' ? '🚗 Mitra' : '👤 Customer'}</span>
+      </td>
+      <td style="font-size:12px;">${u.phone}</td>
+      <td>
+        <span class="badge-pill ${u.kyc === 'verified' ? 'badge-success' : u.kyc === 'pending' ? 'badge-warning' : 'badge-danger'}">
+          ${u.kyc === 'verified' ? '✅ Verified' : u.kyc === 'pending' ? '⌚ Pending' : '❌ Unverified'}
+        </span>
+      </td>
+      <td>
+        <span class="stars" style="font-size:12px;">⭐ ${u.rating}</span>
+      </td>
+      <td style="font-size:12px;color:var(--text-muted);">${u.joinDate}</td>
+      <td>
+        <span class="badge-pill ${u.status === 'active' ? 'badge-success' : 'badge-danger'}">
+          ${u.status === 'active' ? '🟢 Aktif' : '🔴 Banned'}
+        </span>
+      </td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-secondary btn-sm" onclick="viewUser('${u.id}')">👁️</button>
+          ${u.status === 'active'
+            ? `<button class="btn btn-danger btn-sm" onclick="banUser('${u.id}','${u.name}')">🚫 Ban</button>`
+            : `<button class="btn btn-success btn-sm" onclick="unbanUser('${u.id}','${u.name}')">✅ Aktifkan</button>`}
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterUsers() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const role = document.getElementById('roleFilter').value;
+  const status = document.getElementById('statusFilter').value;
+
+  let filtered = USERS.filter(u => {
+    const matchSearch = u.name.toLowerCase().includes(search) || u.email.toLowerCase().includes(search);
+    const matchRole = !role || u.role === role;
+    const matchStatus = !status || u.status === status;
+    return matchSearch && matchRole && matchStatus;
+  });
+
+  renderTable(filtered);
+}
+
+function viewUser(id) {
+  const u = USERS.find(x => x.id === id);
+  if (!u) return;
+  document.getElementById('modalName').textContent = u.name;
+  document.getElementById('modalContent').innerHTML = `
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px;background:var(--bg);border-radius:12px;">
+      <div class="avatar" style="width:60px;height:60px;font-size:24px;">${u.avatar}</div>
+      <div>
+        <div style="font-weight:700;font-size:16px;">${u.name}</div>
+        <div style="color:var(--text-muted);">${u.email} · ${u.phone}</div>
+        <div style="margin-top:6px;"><span class="badge-pill ${u.status === 'active' ? 'badge-success' : 'badge-danger'}">${u.status}</span></div>
+      </div>
+    </div>
+    <div style="display:grid;gap:10px;font-size:13px;">
+      <div style="display:flex;justify-content:space-between;"><span class="text-muted">Role</span><span class="font-bold">${u.role}</span></div>
+      <div style="display:flex;justify-content:space-between;"><span class="text-muted">KYC</span><span class="font-bold">${u.kyc}</span></div>
+      <div style="display:flex;justify-content:space-between;"><span class="text-muted">Rating</span><span class="font-bold">⭐ ${u.rating}</span></div>
+      <div style="display:flex;justify-content:space-between;"><span class="text-muted">Total Sewa</span><span class="font-bold">${u.totalSewa || u.totalMobil || 0}</span></div>
+      <div style="display:flex;justify-content:space-between;"><span class="text-muted">Bergabung</span><span class="font-bold">${u.joinDate}</span></div>
+    </div>
+    <div style="margin-top:16px;">
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;">RIWAYAT PELANGGARAN</div>
+      <div style="background:var(--bg);border-radius:8px;padding:12px;font-size:12px;color:var(--text-muted);">
+        ${u.status === 'banned' ? '🚫 Telah menerima laporan dari 2 Mitra berbeda. Banned per 01 Des 2024.' : '✅ Tidak ada riwayat pelanggaran'}
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:20px;">
+      <button class="btn btn-outline" style="flex:1;justify-content:center;" onclick="closeModal()">Tutup</button>
+      ${u.status === 'active'
+        ? `<button class="btn btn-danger" style="flex:1;justify-content:center;" onclick="banUser('${u.id}','${u.name}');closeModal()">🚫 Ban Akun</button>`
+        : `<button class="btn btn-success" style="flex:1;justify-content:center;" onclick="unbanUser('${u.id}','${u.name}');closeModal()">✅ Aktifkan Akun</button>`}
+    </div>
+  `;
+  document.getElementById('userModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('userModal').style.display = 'none';
+}
+
+function banUser(id, name) {
+  if (confirm(`🚫 Ban akun "${name}"?\n\nAkun akan dinonaktifkan dan pengguna tidak bisa login.`)) {
+    const u = USERS.find(x => x.id === id);
+    if (u) u.status = 'banned';
+    renderTable(USERS);
+    alert(`✅ Akun ${name} berhasil di-ban.`);
+  }
+}
+
+function unbanUser(id, name) {
+  if (confirm(`✅ Aktifkan kembali akun "${name}"?`)) {
+    const u = USERS.find(x => x.id === id);
+    if (u) u.status = 'active';
+    renderTable(USERS);
+    alert(`✅ Akun ${name} berhasil diaktifkan kembali.`);
+  }
+}
+
+// Initial render
+renderTable(USERS);
+</script>
+</body>
+</html>

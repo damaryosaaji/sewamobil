@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Inventaris Mobil</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .car-img-mitra {
+      width: 100px; height: 100px; object-fit: cover;
+      border-radius: var(--ws-radius-md);
+    }
+    
+    /* Toggle Switch Custom Color */
+    .form-switch .form-check-input { width: 44px; height: 24px; cursor: pointer; }
+    .form-switch .form-check-input:checked { background-color: var(--ws-success); border-color: var(--ws-success); }
+    
+    .mini-calendar { display: flex; gap: 4px; mt-2; }
+    .day-box {
+      width: 28px; height: 28px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700;
+    }
+    .day-box.avail { background-color: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+    .day-box.rented { background-color: #FEE2E2; color: #DC2626; border: 1px solid #FECACA; }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+    
+    <!-- Navbar -->
+    <nav class="app-navbar border-bottom shadow-sm">
+      <div class="d-flex align-items-center">
+        <a href="partner_dashboard.html" class="text-dark text-decoration-none d-flex p-1 ms-n2">
+          <span class="material-icons-round">arrow_back</span>
+        </a>
+        <h1 class="h6 fw-bold mb-0 ms-2">Inventaris Unit</h1>
+      </div>
+      <button class="btn btn-primary btn-sm rounded-pill text-xs px-3 shadow-none d-flex align-items-center gap-1">
+        <span class="material-icons-round fs-6">add</span> Tambah
+      </button>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="mobile-content pt-3 bg-light px-3" id="inventoryList">
+      <!-- Data injected by JS -->
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+      <a href="partner_dashboard.html" class="bottom-nav-item">
+        <span class="material-icons-round">dashboard</span> Dasbor
+      </a>
+      <a href="partner_inventory.html" class="bottom-nav-item active">
+        <span class="material-icons-round">directions_car</span> Mobil
+      </a>
+      <a href="partner_chat.html" class="bottom-nav-item">
+        <span class="material-icons-round">chat</span> Pesan
+      </a>
+      <a href="../customer/home.html" class="bottom-nav-item text-primary-custom opacity-50">
+        <span class="material-icons-round">swap_horiz</span> Ganti Peran
+      </a>
+    </nav>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('inventoryList');
+  // Ambil mobil host Budi Santoso (USR005)
+  const myCars = WS_DATA.cars.filter(c => c.hostId === 'USR005');
+
+  container.innerHTML = myCars.map(car => {
+    const isAvail = car.status === 'available';
+    
+    return `
+      <div class="ws-card bg-white p-3 mb-3 border-0">
+        <div class="d-flex gap-3 mb-3 border-bottom pb-3">
+          <img src="${car.image}" class="car-img-mitra shadow-sm" alt="Car">
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <h2 class="h6 fw-bold mb-0 lh-sm">${car.name}</h2>
+            </div>
+            <div class="text-xs text-muted-custom mb-2">${car.licensePlate} • ${car.year}</div>
+            
+            <div class="d-flex align-items-center justify-content-between bg-light p-2 rounded">
+              <span class="text-xs fw-semibold text-muted-custom">Status Unit</span>
+              <div class="form-check form-switch m-0">
+                <input class="form-check-input" type="checkbox" role="switch" id="toggle-${car.id}" 
+                  ${isAvail ? 'checked' : ''} onchange="toggleStatus(this, '${car.name}')">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-xs fw-bold">Ketersediaan (5 Hari ke Depan)</span>
+            <a href="javascript:App.swal.fire('Kalender Lengkap', 'Fitur pengelolaan jadwal sewaan berdasar kalender sedang diuji coba.', 'info')" class="text-primary-custom text-xs text-decoration-none fw-semibold border-bottom border-primary border-opacity-25 pb-1">Kalender Penuh</a>
+          </div>
+          <div class="mini-calendar mt-2">
+            <div class="day-box ${isAvail ? 'avail' : 'rented'}">15</div>
+            <div class="day-box ${isAvail ? 'avail' : 'rented'}">16</div>
+            <div class="day-box ${isAvail ? 'avail' : 'rented'}">17</div>
+            <div class="day-box avail">18</div>
+            <div class="day-box avail">19</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+});
+
+function toggleStatus(el, name) {
+  const status = el.checked ? 'Tersedia' : 'Non-aktif (Maintenance)';
+  App.toast.fire({
+    icon: 'success',
+    title: `${name} diatribusi menjadi: ${status}`
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Pesan Mitra</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+    
+    <nav class="app-navbar border-bottom shadow-sm">
+      <div class="d-flex align-items-center">
+        <h1 class="h6 fw-bold mb-0">Kotak Masuk</h1>
+      </div>
+      <span class="badge bg-danger rounded-pill px-2 py-1">2 Baru</span>
+    </nav>
+
+    <div class="mobile-content pt-3 px-3">
+      
+      <!-- Chat List -->
+      <div class="ws-card p-0 border-0 bg-white mb-3 overflow-hidden" onclick="App.swal.fire('Obrolan Aktif', 'Simulasi chat room dengan pelanggan terbuka.', 'info')">
+        <div class="d-flex p-3 border-bottom align-items-center gap-3" style="cursor: pointer; background-color: var(--ws-primary-light);">
+          <div class="position-relative">
+            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=facearea&facepad=2&w=150&h=150&q=80" 
+                 class="rounded-circle" width="50" height="50" style="object-fit:cover;">
+            <span class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle p-1"></span>
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="fw-bold text-sm text-dark">Andi Kusuma</span>
+              <span class="text-xs text-primary-custom fw-bold">10:42</span>
+            </div>
+            <div class="text-xs fw-bold text-dark text-truncate" style="max-width: 200px;">Halo pak, untuk bensin apakah perlu saya isi penuh?</div>
+          </div>
+        </div>
+        
+        <div class="d-flex p-3 border-bottom align-items-center gap-3" style="cursor: pointer;" onclick="event.stopPropagation(); App.swal.fire('Riwayat Obrolan', 'Obrolan telah diarsipkan.', 'info')">
+          <div class="position-relative">
+            <div class="bg-light rounded-circle d-flex text-muted-custom" style="width:50px; height:50px; align-items:center; justify-content:center;">
+              <span class="material-icons-round fs-3">person</span>
+            </div>
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="fw-semibold text-sm text-dark">Rina Herawati</span>
+              <span class="text-xs text-muted-custom">Kemarin</span>
+            </div>
+            <div class="text-xs text-muted-custom text-truncate" style="max-width: 200px;">Terima kasih ya pak mobilnya sangat nyaman.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+      <a href="partner_dashboard.html" class="bottom-nav-item">
+        <span class="material-icons-round">dashboard</span> Dasbor
+      </a>
+      <a href="partner_inventory.html" class="bottom-nav-item">
+        <span class="material-icons-round">directions_car</span> Mobil
+      </a>
+      <a href="partner_chat.html" class="bottom-nav-item active">
+        <span class="material-icons-round">chat</span> Pesan
+      </a>
+      <a href="../customer/home.html" class="bottom-nav-item text-primary-custom opacity-50">
+        <span class="material-icons-round">swap_horiz</span> Ganti Peran
+      </a>
+    </nav>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/app.js"></script>
+
+</body>
+</html>

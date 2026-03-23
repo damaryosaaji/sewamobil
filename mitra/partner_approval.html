@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Persetujuan Sewa</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    /* Custom Tabs */
+    .nav-tabs { border-bottom: 1px solid var(--ws-border); gap: 1rem; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0px; }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .nav-link { 
+      color: var(--ws-secondary); border: none; border-bottom: 2px solid transparent; 
+      padding: 0.75rem 0.5rem; font-weight: 600; white-space: nowrap; font-size: 0.9rem;
+    }
+    .nav-link.active { 
+      color: var(--ws-primary); border-bottom-color: var(--ws-primary); background: transparent;
+    }
+    .nav-link:hover:not(.active) { border-color: transparent; color: var(--ws-primary); }
+
+    .req-card { border: 1px solid var(--ws-border); border-radius: 16px; background: white; margin-bottom: 1rem; overflow: hidden; }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+    
+    <nav class="app-navbar border-bottom shadow-sm">
+      <div class="d-flex align-items-center">
+        <a href="partner_dashboard.html" class="text-dark text-decoration-none d-flex p-1 ms-n2">
+          <span class="material-icons-round">arrow_back</span>
+        </a>
+        <h1 class="h6 fw-bold mb-0 ms-2">Pesanan Masuk</h1>
+      </div>
+      <span class="badge bg-danger rounded-pill px-2 py-1">1 Baru</span>
+    </nav>
+
+    <!-- Tabs Container -->
+    <div class="bg-white px-3">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#baru" type="button">Menunggu (1)</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#aktif" type="button">Aktif (1)</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#riwayat" type="button">Riwayat</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mobile-content pt-3 px-3 tab-content">
+      
+      <!-- TAB BARU -->
+      <div class="tab-pane fade show active" id="baru">
+        <div id="pendingList">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- TAB AKTIF -->
+      <div class="tab-pane fade" id="aktif">
+        <div class="text-center py-5">
+          <span class="material-icons-round text-success opacity-50 mb-2" style="font-size:48px;">check_circle</span>
+          <p class="text-muted-custom fw-semibold text-sm">Toyota Avanza disewa oleh Andi Kusuma</p>
+          <a href="partner_handover.html" class="btn btn-outline-primary btn-sm rounded-pill mt-2">Lihat Detail Riwayat</a>
+        </div>
+      </div>
+
+      <!-- TAB RIWAYAT -->
+      <div class="tab-pane fade" id="riwayat">
+        <div class="text-center py-5">
+          <div class="bg-secondary bg-opacity-10 rounded-circle d-inline-flex p-3 mx-auto mb-3">
+            <span class="material-icons-round text-muted fs-1">receipt_long</span>
+          </div>
+          <p class="text-muted-custom fw-semibold text-sm">Belum ada riwayat pesanan selesai.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('pendingList');
+  
+  // Ambil booking pending untuk Budi Santoso (mitra dummy)
+  const pending = WS_DATA.bookings.filter(b => b.hostId === 'USR005' && b.status === 'pending');
+  // Fallback demo jika data tidak pas
+  const dummyPending = pending.length ? pending[0] : {
+    id: 'BK-000-DEMO', customerId: 'USR004', carId: 'CAR001', startDate: '2024-02-10', endDate: '2024-02-12', totalDays: 2, totalAmount: 700000
+  };
+
+  const renter = WS_DATA.users.find(u => u.id === dummyPending.customerId) || WS_DATA.users[3];
+  const car = WS_DATA.cars.find(c => c.id === dummyPending.carId) || WS_DATA.cars[0];
+
+  container.innerHTML = `
+    <div class="req-card" id="card-${dummyPending.id}">
+      <div class="p-3 border-bottom">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="badge badge-soft-warning">Menunggu Respons</span>
+          <span class="text-xs text-muted-custom font-monospace">${dummyPending.id}</span>
+        </div>
+        
+        <div class="d-flex gap-3 align-items-center">
+          <img src="${renter.avatar}" class="rounded-circle" width="48" height="48" style="object-fit:cover;">
+          <div>
+            <h3 class="h6 fw-bold mb-0">${renter.name}</h3>
+            <div class="text-xs text-success d-flex align-items-center gap-1 mt-1">
+              <span class="material-icons-round" style="font-size:14px;">verified_user</span> KYC Terverifikasi
+            </div>
+          </div>
+          <button class="btn btn-circle bg-light border-0 ms-auto text-primary-custom" onclick="window.location.href='mailto:${renter.email}'">
+            <span class="material-icons-round">chat</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-3 bg-light">
+        <div class="d-flex mb-2 text-sm">
+          <span class="text-muted-custom w-50">Kendaraan</span>
+          <span class="fw-bold text-end w-50">${car.name}</span>
+        </div>
+        <div class="d-flex mb-2 text-sm">
+          <span class="text-muted-custom w-50">Jadwal</span>
+          <span class="fw-bold text-end w-50">${formatDate(dummyPending.startDate)} - ${formatDate(dummyPending.endDate)}</span>
+        </div>
+        <div class="d-flex mb-3 text-sm">
+          <span class="text-muted-custom w-50">Durasi</span>
+          <span class="fw-bold text-end w-50">${dummyPending.totalDays} Hari</span>
+        </div>
+        
+        <div class="bg-white border p-2 rounded-2 d-flex justify-content-between align-items-center">
+          <span class="text-xs fw-semibold text-muted-custom">Estimasi Pendapatan</span>
+          <span class="text-primary-custom fw-extrabold">${formatRupiah(dummyPending.totalAmount)}</span>
+        </div>
+      </div>
+
+      <div class="p-3 d-flex gap-2">
+        <button class="btn btn-outline-danger flex-grow-1 fw-bold rounded-pill" onclick="rejectOrder('${dummyPending.id}')">Tolak</button>
+        <button class="btn btn-primary flex-grow-1 fw-bold rounded-pill shadow-sm" onclick="acceptOrder('${dummyPending.id}')">Terima</button>
+      </div>
+    </div>
+  `;
+});
+
+function acceptOrder(id) {
+  App.swal.fire({
+    icon: 'success',
+    title: 'Pesanan Diterima',
+    text: 'Sistem telah mengirim notifikasi ke penyewa. Segera siapkan kendaraan Anda!',
+    confirmButtonText: 'Buka Serah Terima'
+  }).then(() => {
+    window.location.href = 'partner_handover.html';
+  });
+}
+
+function rejectOrder(id) {
+  App.swal.fire({
+    title: 'Tolak Pesanan?',
+    input: 'select',
+    inputOptions: {
+      'jadwal_bentrok': 'Jadwal Bentrok / Mobil Dipakai',
+      'kendaraan_rusak': 'Kendaraan Sedang Perbaikan',
+      'lainnya': 'Alasan Lainnya'
+    },
+    inputPlaceholder: 'Pilih alasan penolakan',
+    showCancelButton: true,
+    confirmButtonText: 'Tolak',
+    cancelButtonText: 'Batal',
+    confirmButtonColor: '#EF4444',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      document.getElementById(`card-${id}`).remove();
+      App.toast.fire({ icon: 'info', title: 'Pesanan ditolak dan telah diarsipkan.' });
+      document.getElementById('pendingList').innerHTML = '<p class="text-center text-muted-custom text-sm mt-5">Tidak ada pesanan baru.</p>';
+    }
+  });
+}
+</script>
+
+</body>
+</html>

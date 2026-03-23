@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SewaMobil - Navigation Hub</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #121826;
+            --card-bg: #1f2937;
+            --accent-blue: #3b82f6;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .nav-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e5e7eb;
+            border-radius: 0.75rem !important;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .list-group-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+            color: #fff;
+        }
+
+        .badge-custom {
+            font-size: 0.7rem;
+            padding: 0.35em 0.65em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container py-5">
+        <header class="text-center mb-5">
+            <div class="d-flex align-items-center justify-content-center mb-3">
+                <span class="material-icons-round text-primary fs-1 me-2">directions_car</span>
+                <h1 class="fw-bold mb-0">SewaMobil</h1>
+            </div>
+            <p class="text-muted">Platform Sewa Mobil Peer-to-Peer (C2C)</p>
+            <nav class="small text-secondary">
+                Navigasi UI Prototype &bull; Skripsi UI/UX &bull; Design Thinking
+            </nav>
+        </header>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4">
+                <div class="nav-card p-4">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary">
+                        <span class="material-icons-round">person</span>
+                    </div>
+                    <h3 class="h5 fw-bold">Customer (Penyewa)</h3>
+                    <p class="small text-muted mb-4">Alur lengkap dari onboarding hingga Car Condition Tracker.</p>
+
+                    <div class="list-group">
+                        <a href="index.html"
+                            class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons-round me-3 opacity-50">view_carousel</span>
+                                Onboarding
+                            </div>
+                            <span class="badge bg-success badge-custom">Start</span>
+                        </a>
+                        <a href="customer/login.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">lock</span> Login / Masuk
+                        </a>
+                        <a href="customer/home.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">home</span> Home & Eksplorasi
+                        </a>
+                        <a href="customer/map.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">explore</span> Peta Lokasi
+                        </a>
+                        <a href="customer/detail_mobil.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">directions_car</span> Detail Mobil
+                        </a>
+                        <a href="customer/kyc.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">how_to_reg</span> Verifikasi Identitas
+                            (KYC)
+                        </a>
+                        <a href="customer/checkout.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">shopping_cart</span> Checkout
+                        </a>
+                        <a href="customer/car-condition.html"
+                            class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons-round me-3 opacity-50">camera_alt</span>
+                                Condition Tracker
+                            </div>
+                            <span class="badge bg-warning text-dark badge-custom">Unique</span>
+                        </a>
+                        <a href="customer/orders.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">receipt_long</span> Riwayat Pesanan
+                        </a>
+                        <a href="customer/profile.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">person</span> Profil Pengguna
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="nav-card p-4">
+                    <div class="icon-box bg-success bg-opacity-10 text-success">
+                        <span class="material-icons-round">handshake</span>
+                    </div>
+                    <h3 class="h5 fw-bold">Mitra (Pemilik Mobil)</h3>
+                    <p class="small text-muted mb-4">Manajemen aset, approval pesanan, dan serah terima kendaraan.</p>
+
+                    <div class="list-group">
+                        <a href="mitra/partner_dashboard.html"
+                            class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons-round me-3 opacity-50">dashboard</span>
+                                Dashboard Mitra
+                            </div>
+                            <span class="badge bg-success badge-custom">Start</span>
+                        </a>
+                        <a href="mitra/partner_inventory.html"
+                            class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">directions_car</span> Manajemen
+                            Inventaris
+                        </a>
+                        <a href="mitra/partner_approval.html"
+                            class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons-round me-3 opacity-50">check_circle</span>
+                                Approval Pesanan
+                            </div>
+                            <span class="badge bg-danger badge-custom">1 Baru</span>
+                        </a>
+                        <a href="mitra/partner_handover.html"
+                            class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">key</span> Serah Terima (Handover)
+                        </a>
+                        <a href="mitra/partner_chat.html"
+                            class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">chat</span> Pesan / Obrolan
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="nav-card p-4">
+                    <div class="icon-box bg-info bg-opacity-10 text-info">
+                        <span class="material-icons-round">admin_panel_settings</span>
+                    </div>
+                    <h3 class="h5 fw-bold">Admin (Platform)</h3>
+                    <p class="small text-muted mb-4">Monitoring analitik bisnis, verifikasi KYC, dan resolusi sengketa.
+                    </p>
+
+                    <div class="list-group">
+                        <a href="admin/admin_dashboard.html"
+                            class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons-round me-3 opacity-50">bar_chart</span>
+                                Overview & Analitik
+                            </div>
+                            <span class="badge bg-success badge-custom">Start</span>
+                        </a>
+                        <a href="admin/admin_kyc.html"
+                            class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <div class="d-flex align-items-center">
+                                <span class="material-icons-round me-3 opacity-50">badge</span>
+                                Verifikasi KYC
+                            </div>
+                            <span class="badge bg-warning text-dark badge-custom">2 Pending</span>
+                        </a>
+                        <a href="admin/admin_dispute.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">gavel</span> Manajemen Sengketa
+                        </a>
+                        <a href="admin/admin_users.html" class="list-group-item d-flex align-items-center border-0">
+                            <span class="material-icons-round me-3 opacity-50">people</span> Manajemen Pengguna
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-card p-4 border-0 bg-opacity-10 bg-white">
+            <h6 class="text-center text-muted mb-4 fw-bold">
+                <span class="material-icons-round fs-6 align-middle">database</span> Data Dummy Terintegrasi
+            </h6>
+            <div class="row g-3" id="dummy-data-container">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Contoh Data Dummy (Scalable: Bisa dipindah ke file data.js terpisah)
+        const dummyUsers = [
+            { name: "Budi Santoso", role: "Customer", status: "Login Aktif", color: "text-primary" },
+            { name: "Rizky Pratama", role: "Customer", status: "Banned", color: "text-danger" },
+            { name: "Ahmad Fauzi", role: "Mitra", status: "3 Mobil", color: "text-success" }
+        ];
+
+        const container = document.getElementById('dummy-data-container');
+
+        // Render logic (Maintainable)
+        dummyUsers.forEach(user => {
+            container.innerHTML += `
+            <div class="col-md-4">
+                <div class="p-3 bg-dark rounded-3 small border border-secondary border-opacity-25">
+                    <div class="fw-bold">${user.name}</div>
+                    <div class="text-muted">${user.role} &bull; <span class="${user.color}">${user.status}</span></div>
+                </div>
+            </div>
+        `;
+        });
+
+        // SweetAlert Greeting
+        window.onload = () => {
+            console.log("SewaMobil Environment Ready.");
+        };
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SewaMobil Admin – Pusat Verifikasi KYC</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">
+        <div class="logo-icon">🚗</div>
+        <div class="logo-text">Sewa<span>Mobil</span></div>
+      </div>
+    </div>
+    <nav class="sidebar-menu">
+      <div class="sidebar-section-title">Dashboard</div>
+      <a href="overview.html" class="sidebar-item">
+        <span class="icon">📊</span><span class="label">Overview & Analitik</span>
+      </a>
+      <div class="sidebar-section-title">Verifikasi</div>
+      <a href="kyc-center.html" class="sidebar-item active">
+        <span class="icon">🪪</span><span class="label">Pusat KYC</span>
+        <span class="badge">2</span>
+      </a>
+      <div class="sidebar-section-title">Operasional</div>
+      <a href="disputes.html" class="sidebar-item">
+        <span class="icon">⚖️</span><span class="label">Manajemen Sengketa</span>
+        <span class="badge">1</span>
+      </a>
+      <a href="users.html" class="sidebar-item">
+        <span class="icon">👥</span><span class="label">Manajemen Pengguna</span>
+      </a>
+      <div class="sidebar-section-title">Lainnya</div>
+      <a href="../index.html" class="sidebar-item"><span class="icon">🏠</span><span class="label">Kembali ke Portal</span></a>
+      <a href="../customer/login.html" class="sidebar-item"><span class="icon">🚪</span><span class="label">Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="admin-content">
+    <div class="admin-topbar">
+      <div>
+        <div class="topbar-title">Pusat Verifikasi KYC</div>
+        <div class="topbar-subtitle">Pemeriksaan manual untuk kasus tanda tanya AI</div>
+      </div>
+      <div class="topbar-actions">
+        <span class="badge-pill badge-warning" style="font-size:13px;padding:6px 14px;">2 Menunggu Review</span>
+        <div class="avatar">SA</div>
+      </div>
+    </div>
+
+    <div class="admin-main">
+      <!-- KYC Stats -->
+      <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="stat-card">
+          <div class="stat-icon amber">⌚</div>
+          <div><div class="stat-value">2</div><div class="stat-label">Menunggu Review</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div><div class="stat-value">1.642</div><div class="stat-label">Total Terverifikasi</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">❌</div>
+          <div><div class="stat-value">38</div><div class="stat-label">Ditolak</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">🤖</div>
+          <div><div class="stat-value">97.3%</div><div class="stat-label">Akurasi AI</div></div>
+        </div>
+      </div>
+
+      <!-- Filter -->
+      <div class="flex gap-8 mb-20">
+        <div class="chip active">Pending Review (2)</div>
+        <div class="chip">Terverifikasi</div>
+        <div class="chip">Ditolak</div>
+        <div class="chip">Semua</div>
+      </div>
+
+      <!-- KYC Case 1 -->
+      <div class="card mb-20">
+        <div class="card-header">
+          <div>
+            <span class="card-title">KYC001 – Dewi Lestari</span>
+            <div style="font-size:12px;color:var(--text-muted);">ID: USR004 · Diajukan: 25 Des 2024, 10:00 WIB</div>
+          </div>
+          <span class="badge-pill badge-warning">⌚ Pending Review</span>
+        </div>
+        <div class="card-body">
+          <div class="grid-2" style="gap:20px;">
+            <!-- Left: data -->
+            <div>
+              <h4 style="font-size:13px;font-weight:700;margin-bottom:12px;">📋 Data Identitas</h4>
+              <div style="display:grid;gap:8px;font-size:13px;">
+                <div class="flex justify-between">
+                  <span class="text-muted">Nama</span>
+                  <span class="font-bold">Dewi Lestari</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-muted">NIK KTP</span>
+                  <span style="font-family:monospace;">3573012345678901</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-muted">Nomor SIM</span>
+                  <span style="font-family:monospace;">3573012345</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-muted">Tgl Lahir</span>
+                  <span>15 Juni 1995</span>
+                </div>
+              </div>
+
+              <div style="margin-top:16px;">
+                <h4 style="font-size:13px;font-weight:700;margin-bottom:10px;">🤖 Skor AI</h4>
+                <div style="display:grid;gap:8px;">
+                  <div>
+                    <div class="flex justify-between mb-4">
+                      <span style="font-size:12px;">Kemiripan KTP–Selfie</span>
+                      <span style="font-weight:700;color:var(--success);">87.3%</span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                      <div class="progress-bar-fill" style="width:87.3%;background:var(--success);"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between mb-4">
+                      <span style="font-size:12px;">Kualitas Dokumen</span>
+                      <span style="font-weight:700;color:var(--warning);">73.1%</span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                      <div class="progress-bar-fill" style="width:73.1%;background:var(--warning);"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between mb-4">
+                      <span style="font-size:12px;">Liveness Check</span>
+                      <span style="font-weight:700;color:var(--success);">Real ✅</span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                      <div class="progress-bar-fill" style="width:95%;"></div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:10px;margin-top:12px;font-size:12px;color:#92400E;">
+                  ⚠️ Kualitas foto SIM di bawah threshold (73% &lt; 80%). Review manual diperlukan.
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: photos -->
+            <div>
+              <h4 style="font-size:13px;font-weight:700;margin-bottom:12px;">📸 Dokumen Foto</h4>
+              <div style="display:grid;gap:10px;">
+                <div>
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;">FOTO KTP</div>
+                  <div style="height:90px;background:linear-gradient(135deg,#DBEAFE,#BAE8FF);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:32px;">🪪</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;">FOTO SIM</div>
+                  <div style="height:90px;background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:32px;">🪪</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;">SELFIE</div>
+                  <div style="height:90px;background:linear-gradient(135deg,#D1FAE5,#A7F3D0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:32px;">🤳</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer flex gap-10 justify-between items-center">
+          <div>
+            <label class="form-label" style="font-size:12px;margin-bottom:4px;">Catatan Reviewer</label>
+            <input type="text" class="form-control" placeholder="Tambah catatan jika ada..." style="width:350px;padding:7px 12px;font-size:13px;" />
+          </div>
+          <div class="flex gap-8">
+            <button class="btn btn-danger" onclick="kycAction('Tolak', 'Dewi Lestari')">❌ Tolak</button>
+            <button class="btn btn-warning" onclick="kycAction('Minta Ulang', 'Dewi Lestari')">🔄 Minta Ulang</button>
+            <button class="btn btn-success" onclick="kycAction('Approve', 'Dewi Lestari')">✅ Approve</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KYC Case 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="card-title">KYC002 – Bagas Nugroho</span>
+            <div style="font-size:12px;color:var(--text-muted);">ID: USR007 · Diajukan: 25 Des 2024, 09:15 WIB</div>
+          </div>
+          <span class="badge-pill badge-warning">⌚ Pending Review</span>
+        </div>
+        <div class="card-body">
+          <div class="flex items-center gap-16">
+            <div style="font-size:48px;">👤</div>
+            <div>
+              <div style="font-size:15px;font-weight:700;">Bagas Nugroho</div>
+              <div style="font-size:13px;color:var(--text-muted);">NIK: 3573098765432109 · Skor AI: 92.1%</div>
+              <div style="margin-top:8px;">
+                <div class="progress-bar-wrap" style="width:200px;">
+                  <div class="progress-bar-fill" style="width:92.1%;"></div>
+                </div>
+                <div style="font-size:11px;color:var(--success);margin-top:4px;">✅ Melewati threshold otomatis</div>
+              </div>
+            </div>
+            <div style="margin-left:auto;" class="flex gap-8">
+              <button class="btn btn-danger btn-sm" onclick="kycAction('Tolak', 'Bagas Nugroho')">❌ Tolak</button>
+              <button class="btn btn-success btn-sm" onclick="kycAction('Approve', 'Bagas Nugroho')">✅ Approve</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+document.querySelectorAll('.chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+
+function kycAction(action, name) {
+  alert(`${action === 'Approve' ? '✅' : action === 'Tolak' ? '❌' : '🔄'} KYC ${action}\n\nPengguna: ${name}\nAksi: ${action}\nWaktu: ${new Date().toLocaleString('id-ID')}\n\nPengguna akan mendapat notifikasi email & push notification.`);
+}
+</script>
+</body>
+</html>

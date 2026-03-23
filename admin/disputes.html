@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SewaMobil Admin – Manajemen Sengketa</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">
+        <div class="logo-icon">🚗</div>
+        <div class="logo-text">Sewa<span>Mobil</span></div>
+      </div>
+    </div>
+    <nav class="sidebar-menu">
+      <div class="sidebar-section-title">Dashboard</div>
+      <a href="overview.html" class="sidebar-item"><span class="icon">📊</span><span class="label">Overview & Analitik</span></a>
+      <div class="sidebar-section-title">Verifikasi</div>
+      <a href="kyc-center.html" class="sidebar-item"><span class="icon">🪪</span><span class="label">Pusat KYC</span><span class="badge">2</span></a>
+      <div class="sidebar-section-title">Operasional</div>
+      <a href="disputes.html" class="sidebar-item active"><span class="icon">⚖️</span><span class="label">Manajemen Sengketa</span><span class="badge">1</span></a>
+      <a href="users.html" class="sidebar-item"><span class="icon">👥</span><span class="label">Manajemen Pengguna</span></a>
+      <div class="sidebar-section-title">Lainnya</div>
+      <a href="../index.html" class="sidebar-item"><span class="icon">🏠</span><span class="label">Kembali ke Portal</span></a>
+      <a href="../customer/login.html" class="sidebar-item"><span class="icon">🚪</span><span class="label">Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="admin-content">
+    <div class="admin-topbar">
+      <div>
+        <div class="topbar-title">Manajemen Sengketa</div>
+        <div class="topbar-subtitle">Pusat mediasi konflik antara Penyewa dan Mitra</div>
+      </div>
+      <div class="topbar-actions">
+        <span class="badge-pill badge-danger" style="font-size:13px;padding:6px 14px;">1 Investigating</span>
+        <div class="avatar">SA</div>
+      </div>
+    </div>
+
+    <div class="admin-main">
+      <!-- Stats -->
+      <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="stat-card">
+          <div class="stat-icon red">🔴</div>
+          <div><div class="stat-value">1</div><div class="stat-label">Investigasi Aktif</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div><div class="stat-value">1</div><div class="stat-label">Sudah Selesai</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">⏱️</div>
+          <div><div class="stat-value">2.3 hari</div><div class="stat-label">Avg Resolusi</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">🛡️</div>
+          <div><div class="stat-value">1</div><div class="stat-label">Klaim Asuransi</div></div>
+        </div>
+      </div>
+
+      <!-- Dispute 1: Investigating -->
+      <div class="card mb-20">
+        <div class="card-header" style="background:#FFF5F5;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="card-title">DSP001 – Kerusakan Kendaraan</span>
+              <span class="badge-pill badge-danger">🔴 Investigating</span>
+              <span class="badge-pill badge-danger" style="background:#FCA5A5;color:#7F1D1D;">🚨 HIGH</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);">BK-2024-001 · Toyota Avanza · 24 Des 2024, 08:30 WIB</div>
+          </div>
+          <button class="btn btn-warning btn-sm">Eskalasi</button>
+        </div>
+        <div class="card-body">
+          <div class="grid-2" style="gap:24px;">
+            <div>
+              <!-- Parties -->
+              <h4 style="font-size:13px;font-weight:700;margin-bottom:12px;">👥 Pihak Terlibat</h4>
+              <div style="display:grid;gap:10px;">
+                <div style="background:#EFF6FF;border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="width:36px;height:36px;font-size:14px;">BS</div>
+                  <div>
+                    <div style="font-weight:700;font-size:13px;">Budi Santoso</div>
+                    <div style="font-size:11px;color:var(--primary);">Pelapor (Penyewa)</div>
+                  </div>
+                  <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="viewChat('Budi')">💬 Chat</button>
+                </div>
+                <div style="background:#FFF7ED;border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="width:36px;height:36px;font-size:14px;">AF</div>
+                  <div>
+                    <div style="font-weight:700;font-size:13px;">Ahmad Fauzi</div>
+                    <div style="font-size:11px;color:var(--accent-dark);">Terlapor (Mitra)</div>
+                  </div>
+                  <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="viewChat('Ahmad')">💬 Chat</button>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div style="margin-top:16px;background:var(--bg);border-radius:10px;padding:14px;">
+                <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">DESKRIPSI MASALAH</div>
+                <p style="font-size:13px;line-height:1.6;">Terdapat goresan di pintu kiri belakang yang tidak ada saat serah terima awal. Pihak mitra mengklaim goresan sudah ada sebelumnya dan sudah tercatat di Car Condition Tracker.</p>
+              </div>
+
+              <!-- Insurance Status -->
+              <div style="margin-top:12px;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px;">
+                <div style="font-weight:700;font-size:13px;color:var(--danger);margin-bottom:6px;">🛡️ Status Klaim Asuransi</div>
+                <div style="font-size:13px;">Status: <span class="badge-pill badge-warning">⌚ Pending</span></div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Estimasi klaim: Rp 500.000–1.500.000</div>
+              </div>
+            </div>
+
+            <div>
+              <!-- Evidence -->
+              <h4 style="font-size:13px;font-weight:700;margin-bottom:12px;">📸 Bukti Foto</h4>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+                <div>
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:4px;">SEBELUM SEWA</div>
+                  <div style="height:100px;background:linear-gradient(135deg,#DBEAFE,#BAE8FF);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;">📸</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:4px;">SETELAH SEWA</div>
+                  <div style="height:100px;background:linear-gradient(135deg,#FEE2E2,#FECACA);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;">📸</div>
+                </div>
+              </div>
+
+              <!-- Chat Log -->
+              <h4 style="font-size:13px;font-weight:700;margin-bottom:10px;">💬 Log Chat Sengketa</h4>
+              <div style="background:var(--bg);border-radius:10px;padding:12px;height:140px;overflow-y:auto;">
+                <div style="margin-bottom:10px;">
+                  <div style="font-size:10px;color:var(--text-muted);">Budi Santoso · 24 Des, 08:30</div>
+                  <div style="background:white;border-radius:8px;padding:8px;margin-top:4px;font-size:12px;display:inline-block;">Ada goresan di pintu kiri belakang. Foto terlampir.</div>
+                </div>
+                <div style="margin-bottom:10px;text-align:right;">
+                  <div style="font-size:10px;color:var(--text-muted);">Ahmad Fauzi · 24 Des, 09:15</div>
+                  <div style="background:var(--primary);color:white;border-radius:8px;padding:8px;margin-top:4px;font-size:12px;display:inline-block;">Goresan itu sudah ada dari sebelum sewa. Ada di Condition Tracker.</div>
+                </div>
+                <div style="margin-bottom:10px;">
+                  <div style="font-size:10px;color:var(--text-muted);">Admin · 24 Des, 10:00</div>
+                  <div style="background:#ECFDF5;border-radius:8px;padding:8px;margin-top:4px;font-size:12px;display:inline-block;">Sedang menginvestigasi. Mohon bersabar.</div>
+                </div>
+              </div>
+
+              <!-- Admin Reply -->
+              <div style="margin-top:10px;display:flex;gap:8px;">
+                <input type="text" class="form-control" placeholder="Kirim pesan ke semua pihak..." style="font-size:13px;" />
+                <button class="btn btn-primary btn-sm">Kirim</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer flex gap-10 justify-end">
+          <button class="btn btn-secondary" onclick="resolveDispute('Penyewa', 'DSP001')">✅ Menangkan Penyewa</button>
+          <button class="btn btn-secondary" onclick="resolveDispute('Mitra', 'DSP001')">✅ Menangkan Mitra</button>
+          <button class="btn btn-warning" onclick="resolveDispute('Bagi Rata', 'DSP001')">⚖️ Bagi Rata</button>
+          <button class="btn btn-primary" onclick="claimInsurance('DSP001')">🛡️ Ajukan Klaim Asuransi</button>
+        </div>
+      </div>
+
+      <!-- Dispute 2: Resolved -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="card-title">DSP002 – Keterlambatan Pengembalian</span>
+              <span class="badge-pill badge-gray">✅ Selesai</span>
+              <span class="badge-pill" style="background:#FEF3C7;color:#92400E;">🟡 MEDIUM</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);">BK-2024-004 · Suzuki Ertiga · 18 Des 2024, 17:00 WIB</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="flex items-center gap-16">
+            <div>
+              <div class="flex items-center gap-10 mb-8">
+                <div class="avatar" style="width:32px;height:32px;font-size:12px;">AF</div>
+                <span style="font-size:13px;font-weight:600;">Ahmad Fauzi (Mitra)</span>
+                <span style="font-size:12px;color:var(--text-muted);">vs</span>
+                <div class="avatar" style="width:32px;height:32px;font-size:12px;">BS</div>
+                <span style="font-size:13px;font-weight:600;">Budi Santoso (Penyewa)</span>
+              </div>
+              <p style="font-size:13px;color:var(--text-muted);">Penyewa terlambat 4 jam. Diselesaikan dengan denda keterlambatan Rp 200.000.</p>
+            </div>
+            <div style="margin-left:auto;text-align:right;">
+              <div style="color:var(--success);font-weight:700;font-size:14px;">Selesai ✅</div>
+              <div style="font-size:12px;color:var(--text-muted);">20 Des 2024</div>
+              <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Denda: Rp 200.000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+function viewChat(name) {
+  alert(`💬 Chat Log dengan ${name}\n\n[Lihat log lengkap percakapan antara penyewa dan mitra...]`);
+}
+
+function resolveDispute(winner, id) {
+  alert(`⚖️ Sengketa ${id} Diselesaikan\n\nKeputusan: ${winner} menang\nTidak ada klaim asuransi diperlukan.\n\nKedua pihak akan mendapat notifikasi keputusan final.`);
+}
+
+function claimInsurance(id) {
+  alert(`🛡️ Klaim Asuransi Diajukan\n\nSengketa: ${id}\nPartner Asuransi: PT Asuransi Allianz Utama\nTotal Estimasi Klaim: Rp 750.000\n\nPihak asuransi akan menghubungi dalam 1x24 jam.`);
+}
+</script>
+</body>
+</html>

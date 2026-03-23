@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Checkout</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .date-box {
+      background: var(--ws-bg);
+      border: 1px solid var(--ws-border);
+      border-radius: var(--ws-radius-md);
+      padding: 10px; flex: 1; text-align: center;
+    }
+    .date-label { font-size: 10px; color: var(--ws-secondary); font-weight: 600; text-transform: uppercase; margin-bottom: 2px; }
+    .date-value { font-size: 14px; font-weight: 700; color: var(--ws-primary); }
+    
+    .insurance-card {
+      border: 2px solid var(--ws-border);
+      border-radius: var(--ws-radius-md);
+      padding: 12px; cursor: pointer; transition: all 0.2s;
+    }
+    .insurance-card.active {
+      border-color: var(--ws-primary); background: var(--ws-primary-light);
+    }
+
+    .payment-method {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border: 1px solid var(--ws-border);
+      border-radius: var(--ws-radius-md); margin-bottom: 8px; cursor: pointer;
+    }
+    .payment-method.active {
+      border-color: var(--ws-primary); background: var(--ws-primary-light);
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+    
+    <!-- Navbar -->
+    <nav class="app-navbar">
+      <div class="d-flex align-items-center">
+        <a href="detail_mobil.html" class="text-dark text-decoration-none d-flex p-1 ms-n2">
+          <span class="material-icons-round">arrow_back</span>
+        </a>
+        <h1 class="h6 fw-bold mb-0 ms-2">Checkout Pemesanan</h1>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="mobile-content container pt-4">
+      
+      <!-- Summary Mobil & Waktu -->
+      <section class="mb-4">
+        <h2 class="h6 fw-bold mb-3">Ringkasan Pesanan</h2>
+        <div class="ws-card p-3 mb-3">
+          <div class="d-flex gap-3 align-items-center pb-3 border-bottom">
+            <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=200" 
+                 alt="Car" class="rounded-3" width="80" height="60" style="object-fit:cover;">
+            <div>
+              <div class="fw-bold text-sm" id="cName">Toyota Avanza G 2023</div>
+              <div class="text-xs text-muted-custom">Budi Santoso · ⭐ 4.8</div>
+              <div class="text-primary-custom fw-bold text-sm mt-1" id="cPrice">Rp 350.000<span class="text-xs fw-normal text-muted-custom">/hari</span></div>
+            </div>
+          </div>
+          <div class="d-flex gap-2 pt-3">
+            <div class="date-box">
+              <div class="date-label">Mulai Sewa</div>
+              <div class="date-value">20 Des (09:00)</div>
+            </div>
+            <div class="d-flex align-items-center text-muted-custom"><span class="material-icons-round">arrow_forward</span></div>
+            <div class="date-box">
+              <div class="date-label">Selesai Sewa</div>
+              <div class="date-value">23 Des (09:00)</div>
+            </div>
+          </div>
+          <div class="text-center mt-2 text-xs fw-bold text-success">Total: 3 Hari</div>
+        </div>
+      </section>
+
+      <!-- Asuransi -->
+      <section class="mb-4">
+        <h2 class="h6 fw-bold mb-3">Proteksi Perjalanan <span class="badge badge-soft-primary" style="font-size:10px;">Wajib</span></h2>
+        
+        <div class="insurance-card active mb-2" onclick="setInsurance(this, 50000)">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <div class="fw-bold text-sm text-primary-custom d-flex align-items-center gap-1">
+              <span class="material-icons-round fs-6">shield</span> Basic Protection
+            </div>
+            <div class="fw-bold text-sm">+ Rp 50.000<span class="text-xs fw-normal text-muted-custom">/hri</span></div>
+          </div>
+          <div class="text-xs text-muted-custom">TLO (Total Loss Only) & Bantuan Jalan Darurat. Tuntutan maks Rp 5jt.</div>
+        </div>
+
+        <div class="insurance-card" onclick="setInsurance(this, 120000)">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <div class="fw-bold text-sm text-warning d-flex align-items-center gap-1">
+              <span class="material-icons-round fs-6">verified_user</span> Premium All-Risk
+            </div>
+            <div class="fw-bold text-sm">+ Rp 120.000<span class="text-xs fw-normal text-muted-custom">/hri</span></div>
+          </div>
+          <div class="text-xs text-muted-custom">Lecet minor, kecelakaan, pencurian ditanggung 100%. Tanpa biaya deductible.</div>
+        </div>
+      </section>
+
+      <!-- Pembayaran -->
+      <section class="mb-4">
+        <h2 class="h6 fw-bold mb-3">Metode Pembayaran</h2>
+        <div class="payment-method active" onclick="setPayment(this)">
+          <div class="d-flex align-items-center gap-2">
+            <div class="bg-primary text-white rounded p-1 d-flex"><span class="material-icons-round fs-5">account_balance_wallet</span></div>
+            <span class="fw-semibold text-sm">Transfer Bank Virtual Account</span>
+          </div>
+          <span class="material-icons-round text-primary-custom">radio_button_checked</span>
+        </div>
+        <div class="payment-method" onclick="setPayment(this)">
+          <div class="d-flex align-items-center gap-2">
+            <div class="bg-info text-white rounded p-1 d-flex"><span class="material-icons-round fs-5">qr_code_2</span></div>
+            <span class="fw-semibold text-sm">QRIS E-Wallet</span>
+          </div>
+          <span class="material-icons-round text-muted">radio_button_unchecked</span>
+        </div>
+        <div class="payment-method" onclick="setPayment(this)">
+          <div class="d-flex align-items-center gap-2">
+            <div class="bg-secondary text-white rounded p-1 d-flex"><span class="material-icons-round fs-5">credit_card</span></div>
+            <span class="fw-semibold text-sm">Kartu Kredit</span>
+          </div>
+          <span class="material-icons-round text-muted">radio_button_unchecked</span>
+        </div>
+      </section>
+
+      <!-- Rincian Biaya -->
+      <section class="mb-5">
+        <h2 class="h6 fw-bold mb-3">Rincian Pembayaran</h2>
+        <div class="ws-card p-3 bg-light border-0">
+          <div class="d-flex justify-content-between text-sm mb-2">
+            <span class="text-muted-custom">Biaya Sewa (Rp 350.000 × 3 hari)</span>
+            <span class="fw-bold">Rp 1.050.000</span>
+          </div>
+          <div class="d-flex justify-content-between text-sm mb-2">
+            <span class="text-muted-custom">Biaya Asuransi (<span id="insLabel">Rp 50rb</span> × 3 hari)</span>
+            <span class="fw-bold" id="insTotal">Rp 150.000</span>
+          </div>
+          <div class="d-flex justify-content-between text-sm mb-3">
+            <span class="text-muted-custom">Biaya Layanan Platform</span>
+            <span class="fw-bold">Rp 2.000</span>
+          </div>
+          <hr class="opacity-25 my-2">
+          <div class="d-flex justify-content-between align-items-end mt-2">
+            <span class="fw-bold">Total Pembayaran</span>
+            <span class="h5 fw-extrabold text-primary-custom mb-0" id="grandTotal">Rp 1.202.000</span>
+          </div>
+        </div>
+      </section>
+
+      <button type="button" class="btn btn-primary btn-lg w-100 rounded-pill mb-4 shadow-sm" onclick="processPayment()">
+        <span class="material-icons-round align-middle me-1">lock</span> Bayar Aman
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+  let days = 3;
+  let rentPerDay = 350000;
+  let insPerDay = 50000;
+  let serviceFee = 2000;
+
+  function setInsurance(el, price) {
+    document.querySelectorAll('.insurance-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    insPerDay = price;
+    updateCalculation();
+  }
+
+  function setPayment(el) {
+    document.querySelectorAll('.payment-method').forEach(p => {
+      p.classList.remove('active');
+      p.querySelector('.material-icons-round:last-child').textContent = 'radio_button_unchecked';
+      p.querySelector('.material-icons-round:last-child').classList.replace('text-primary-custom', 'text-muted');
+    });
+    el.classList.add('active');
+    el.querySelector('.material-icons-round:last-child').textContent = 'radio_button_checked';
+    el.querySelector('.material-icons-round:last-child').classList.replace('text-muted', 'text-primary-custom');
+  }
+
+  function updateCalculation() {
+    let rentTotal = days * rentPerDay;
+    let insTotal = days * insPerDay;
+    let grandTotal = rentTotal + insTotal + serviceFee;
+
+    document.getElementById('insLabel').textContent = `Rp ${insPerDay/1000}rb`;
+    document.getElementById('insTotal').textContent = `Rp ${(insTotal).toLocaleString('id-ID')}`;
+    document.getElementById('grandTotal').textContent = `Rp ${(grandTotal).toLocaleString('id-ID')}`;
+  }
+
+  function processPayment() {
+    App.swal.fire({
+      title: 'Memproses Pembayaran...',
+      html: '<div class="spinner-border text-primary my-3" role="status"></div><br><span class="text-sm">Mohon jangan tutup halaman ini.</span>',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      timer: 2000
+    }).then(() => {
+      App.swal.fire({
+        icon: 'success',
+        title: 'Pembayaran Diterima!',
+        text: 'Pesanan BK-2401-004 telah diteruskan ke Mitra. Tunggu konfirmasi penyerahan kunci.',
+        confirmButtonText: 'Kembali ke Beranda',
+        allowOutsideClick: false
+      }).then(() => {
+        window.location.href = 'home.html';
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

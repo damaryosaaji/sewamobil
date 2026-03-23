@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Verifikasi KYC</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .upload-box {
+      border: 2px dashed var(--ws-border);
+      background-color: var(--ws-bg);
+      border-radius: var(--ws-radius-lg);
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .upload-box:hover, .upload-box.active {
+      border-color: var(--ws-primary);
+      background-color: var(--ws-primary-light);
+    }
+    .upload-icon {
+      width: 48px; height: 48px;
+      background: white; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; color: var(--ws-primary);
+      box-shadow: var(--ws-shadow-sm);
+    }
+    .ai-score-bar {
+      height: 6px; border-radius: 3px;
+      background-color: var(--ws-border);
+      overflow: hidden; margin-top: 8px;
+    }
+    .ai-score-fill {
+      height: 100%; transition: width 1s ease-in-out;
+      background: linear-gradient(90deg, #F59E0B, #10B981); width: 0%;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+    
+    <!-- Navbar -->
+    <nav class="app-navbar">
+      <div class="d-flex align-items-center">
+        <a href="detail_mobil.html" class="text-dark text-decoration-none d-flex p-1 ms-n2">
+          <span class="material-icons-round">arrow_back</span>
+        </a>
+        <h1 class="h6 fw-bold mb-0 ms-2">Verifikasi Identitas</h1>
+      </div>
+      <div class="text-xs fw-semibold text-primary-custom">e-KYC</div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="mobile-content container pt-4">
+      
+      <div class="ws-card bg-primary-light border-primary border-opacity-25 p-3 mb-4 d-flex gap-3">
+        <span class="material-icons-round text-primary-custom">security</span>
+        <div>
+          <h2 class="h6 fw-bold mb-1 text-primary-custom">Aman & Terenkripsi</h2>
+          <p class="text-xs mb-0 text-muted-custom">Data Anda dilindungi enkripsi AES-256 dan hanya digunakan untuk keperluan asuransi perjalanan sewa mobil.</p>
+        </div>
+      </div>
+
+      <form id="kycForm" class="needs-validation" novalidate onsubmit="return false;">
+        
+        <!-- KTP -->
+        <h3 class="h6 fw-bold mb-2">1. Foto KTP Asli</h3>
+        <p class="text-xs text-muted-custom mb-3">Pastikan tulisan terbaca jelas dan tidak terkena pantulan cahaya.</p>
+        <div class="upload-box mb-4" id="box-ktp" onclick="simulateUpload('ktp')">
+          <div class="upload-icon"><span class="material-icons-round">badge</span></div>
+          <div class="fw-semibold text-sm text-primary-custom mb-1">Ambil Foto KTP</div>
+          <div class="text-xs text-muted-custom">Atau pilih dari galeri</div>
+          <div class="position-absolute top-0 end-0 p-2 d-none" id="check-ktp">
+            <span class="material-icons-round text-success fs-5">check_circle</span>
+          </div>
+        </div>
+
+        <!-- SIM A -->
+        <h3 class="h6 fw-bold mb-2">2. Foto SIM A Asli</h3>
+        <p class="text-xs text-muted-custom mb-3">Syarat wajib bagi pengemudi, harus masih berlaku.</p>
+        <div class="upload-box mb-4" id="box-sim" onclick="simulateUpload('sim')">
+          <div class="upload-icon"><span class="material-icons-round">drive_eta</span></div>
+          <div class="fw-semibold text-sm text-primary-custom mb-1">Ambil Foto SIM A</div>
+          <div class="text-xs text-muted-custom">Atau pilih dari galeri</div>
+          <div class="position-absolute top-0 end-0 p-2 d-none" id="check-sim">
+            <span class="material-icons-round text-success fs-5">check_circle</span>
+          </div>
+        </div>
+
+        <!-- Selfie Liveness -->
+        <h3 class="h6 fw-bold mb-2">3. Selfie dengan KTP</h3>
+        <p class="text-xs text-muted-custom mb-3">Lepas kacamata dan masker. Posisikan wajah dan KTP di dalam bingkai.</p>
+        <div class="upload-box mb-4" id="box-selfie" onclick="simulateLiveness()">
+          <div class="upload-icon"><span class="material-icons-round">face_retouching_natural</span></div>
+          <div class="fw-semibold text-sm text-primary-custom mb-1">Mulai Liveness Check</div>
+          <div class="text-xs text-muted-custom">Deteksi wajah AI otomatis</div>
+          <div class="position-absolute top-0 end-0 p-2 d-none" id="check-selfie">
+            <span class="material-icons-round text-success fs-5">check_circle</span>
+          </div>
+        </div>
+
+        <!-- AI Score Preview (Hidden until Liveness done) -->
+        <div id="aiScoreCard" class="ws-card p-3 mb-4 border-success border-opacity-25 d-none">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <div class="text-xs fw-bold text-success d-flex align-items-center gap-1">
+              <span class="material-icons-round fs-6">verified_user</span> AI Liveness Match
+            </div>
+            <div class="text-xs fw-extrabold" id="scoreValue">0%</div>
+          </div>
+          <div class="ai-score-bar">
+            <div class="ai-score-fill" id="scoreFill"></div>
+          </div>
+          <div class="text-xs text-muted-custom mt-2">Wajah Anda cocok 92% dengan foto KTP.</div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-lg w-100 rounded-pill mb-4 shadow-sm" id="btnSubmit" onclick="submitKYC()" disabled>
+          Verifikasi Identitas
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Shared Script -->
+<script src="../assets/js/app.js"></script>
+
+<script>
+  let kycState = { ktp: false, sim: false, selfie: false };
+
+  function checkAllUploaded() {
+    if (kycState.ktp && kycState.sim && kycState.selfie) {
+      document.getElementById('btnSubmit').disabled = false;
+    }
+  }
+
+  function simulateUpload(type) {
+    App.swal.fire({
+      title: 'Akses Kamera',
+      text: 'Izinkan WheelsShare mengakses kamera perangkat Anda?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Izinkan',
+      cancelButtonText: 'Tolak',
+      reverseButtons: true
+    }).then((res) => {
+      if(res.isConfirmed) {
+        document.getElementById(`box-${type}`).classList.add('active');
+        document.getElementById(`box-${type}`).style.borderColor = 'var(--ws-success)';
+        document.getElementById(`box-${type}`).style.backgroundColor = '#ECFDF5';
+        document.getElementById(`check-${type}`).classList.remove('d-none');
+        kycState[type] = true;
+        
+        App.toast.fire({ icon: 'success', title: `Dokumen ${type.toUpperCase()} diunggah` });
+        checkAllUploaded();
+      }
+    });
+  }
+
+  function simulateLiveness() {
+    App.swal.fire({
+      title: 'Liveness Check',
+      html: '<div class="spinner-border text-primary my-3" role="status"></div><br><span class="text-sm">Menganalisis kemiripan pola wajah dengan Dukcapil API...</span>',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      timer: 2000
+    }).then(() => {
+      document.getElementById('box-selfie').classList.add('active');
+      document.getElementById('box-selfie').style.borderColor = 'var(--ws-success)';
+      document.getElementById('check-selfie').classList.remove('d-none');
+      kycState.selfie = true;
+
+      // Show AI Score
+      document.getElementById('aiScoreCard').classList.remove('d-none');
+      setTimeout(() => {
+        document.getElementById('scoreFill').style.width = '92%';
+        document.getElementById('scoreValue').textContent = '92%';
+      }, 100);
+
+      App.toast.fire({ icon: 'success', title: 'Liveness Match: Sukses!' });
+      checkAllUploaded();
+    });
+  }
+
+  function submitKYC() {
+    App.swal.fire({
+      icon: 'success',
+      title: 'Verifikasi Berhasil!',
+      text: 'Identitas Anda telah diverifikasi oleh AI kami. Anda sekarang bisa melakukan penyewaan.',
+      confirmButtonText: 'Lanjut Pembayaran'
+    }).then((result) => {
+      if (result.isConfirmed) window.location.href = 'checkout.html';
+    });
+  }
+</script>
+
+</body>
+</html>

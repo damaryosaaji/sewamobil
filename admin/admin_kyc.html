@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Admin Pusat KYC</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .sidebar-brand { height: 64px; display: flex; align-items: center; padding: 0 1.5rem; border-bottom: 1px solid var(--ws-border); gap: 0.5rem; }
+    .sidebar-nav { padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+      color: var(--ws-secondary); text-decoration: none; border-radius: var(--ws-radius-md);
+      font-weight: 600; transition: all 0.2s;
+    }
+    .nav-item:hover, .nav-item.active { background-color: var(--ws-primary-light); color: var(--ws-primary); }
+    
+    .doc-preview {
+      width: 100%; height: 200px;
+      object-fit: cover; border-radius: var(--ws-radius-md);
+      border: 1px solid var(--ws-border); transition: transform 0.3s; cursor: zoom-in;
+    }
+    .doc-preview:hover { transform: scale(1.02); }
+  </style>
+</head>
+<body>
+
+<div class="admin-layout">
+  
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar shadow-sm">
+    <div class="sidebar-brand">
+      <div style="width: 32px; height: 32px; background: var(--ws-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+        <span class="material-icons-round fs-6">directions_car</span>
+      </div>
+      <span class="h6 fw-extrabold mb-0 text-primary-custom" style="letter-spacing:-0.5px;">WheelsShare Admin</span>
+    </div>
+    <div class="sidebar-nav">
+      <div class="text-xs fw-bold text-muted-custom text-uppercase px-3 mb-2">Main Menu</div>
+      <a href="admin_dashboard.html" class="nav-item">
+        <span class="material-icons-round">space_dashboard</span> Ringkasan
+      </a>
+      <a href="admin_kyc.html" class="nav-item active">
+        <span class="material-icons-round">how_to_reg</span> Pusat KYC
+        <span class="badge bg-danger rounded-pill ms-auto">1</span>
+      </a>
+      <a href="admin_dispute.html" class="nav-item">
+        <span class="material-icons-round">gavel</span> Sengketa
+      </a>
+      <a href="admin_users.html" class="nav-item">
+        <span class="material-icons-round">group</span> Pengguna
+      </a>
+    </div>
+    <div class="mt-auto p-4">
+      <button class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2 fw-semibold" onclick="App.logout()">
+        <span class="material-icons-round fs-5">logout</span> Keluar
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="admin-main">
+    
+    <header class="admin-topbar shadow-sm">
+      <div class="fw-bold fs-5">Pusat Verifikasi Identitas (KYC)</div>
+      <div class="d-flex align-items-center gap-2">
+        <img src="https://ui-avatars.com/api/?name=Admin&background=1976D2&color=fff" class="rounded-circle" width="36" height="36" alt="Admin">
+      </div>
+    </header>
+
+    <div class="admin-content bg-light">
+      
+      <div class="row" id="kycQueue">
+        <!-- Rendered by JS -->
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('kycQueue');
+  // Cari user dengan KYC pending, fallback ke USR004 sbg dummy utama
+  const pendingUsers = WS_DATA.users.filter(u => u.kyc === 'pending');
+  let targetUser = pendingUsers.length ? pendingUsers[0] : WS_DATA.users[3];
+
+  if (!targetUser) {
+    container.innerHTML = `<div class="col-12 text-center py-5"><div class="fw-bold text-muted-custom">Antrian Kosong</div></div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="col-lg-8 mx-auto" id="kycCard-${targetUser.id}">
+      <div class="ws-card bg-white p-4 border-0 mb-4">
+        
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+          <div class="d-flex align-items-center gap-3">
+            <img src="${targetUser.avatar}" width="56" height="56" class="rounded-circle" style="object-fit:cover;">
+            <div>
+              <h2 class="h5 fw-bold mb-1">${targetUser.name}</h2>
+              <div class="text-xs text-muted-custom">${targetUser.email} • ${targetUser.phone}</div>
+            </div>
+          </div>
+          <div class="text-end">
+            <div class="text-xs fw-bold text-muted-custom text-uppercase mb-1">Registrasi</div>
+            <div class="text-sm fw-semibold">${targetUser.joinDate}</div>
+          </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-md-4">
+            <h3 class="h6 fw-bold mb-2">Foto KTP Asli</h3>
+            <img src="https://images.unsplash.com/photo-1633409361618-c73427e4e206?auto=format&fit=crop&q=80&w=400" class="doc-preview" onclick="viewDoc(this.src)">
+          </div>
+          <div class="col-md-4">
+            <h3 class="h6 fw-bold mb-2">Foto SIM A Asli</h3>
+            <img src="https://images.unsplash.com/photo-1579208575005-72808b04a080?auto=format&fit=crop&q=80&w=400" class="doc-preview" onclick="viewDoc(this.src)">
+          </div>
+          <div class="col-md-4">
+            <h3 class="h6 fw-bold mb-2">Selfie (Liveness)</h3>
+            <img src="${targetUser.avatar}" class="doc-preview border-success" onclick="viewDoc(this.src)">
+          </div>
+        </div>
+
+        <div class="ws-card bg-light border-0 p-3 mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <div class="text-sm fw-bold text-success d-flex align-items-center gap-1">
+              <span class="material-icons-round fs-5">verified_user</span> AI Match Score: 92% (High Confidence)
+            </div>
+          </div>
+          <div class="text-xs text-muted-custom">Algoritma mendeteksi wajah pada selfie cocok secara biometrik dengan foto KTP.</div>
+        </div>
+
+        <div class="d-flex gap-3 mt-4 pt-3 border-top">
+          <button class="btn btn-outline-danger flex-grow-1 fw-bold" onclick="rejectKYC('${targetUser.id}')">Tolak & Minta Resubmit</button>
+          <button class="btn btn-primary flex-grow-1 fw-bold" onclick="approveKYC('${targetUser.id}', '${targetUser.name}')">Approve KYC</button>
+        </div>
+
+      </div>
+    </div>
+  `;
+});
+
+function viewDoc(src) {
+  App.swal.fire({
+    imageUrl: src,
+    imageWidth: 600,
+    imageAlt: 'Document',
+    showConfirmButton: false,
+    showCloseButton: true,
+    customClass: { popup: 'p-2' }
+  });
+}
+
+function approveKYC(id, name) {
+  App.swal.fire({
+    title: 'Setujui Dokumen?',
+    text: `Pengguna ${name} akan mendapat status Verified (Centang Hijau).`,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Setujui',
+    cancelButtonText: 'Batal'
+  }).then((res) => {
+    if(res.isConfirmed) {
+      document.getElementById(`kycCard-${id}`).remove();
+      App.toast.fire({ icon: 'success', title: 'KYC Disetujui' });
+      document.getElementById('kycQueue').innerHTML = `<div class="col-12 text-center py-5"><div class="fw-bold text-muted-custom">Antrian Kosong</div></div>`;
+      // Update badge via DOM (dummy)
+      document.querySelector('.nav-item.active .badge').remove();
+    }
+  });
+}
+
+function rejectKYC(id) {
+  App.swal.fire({
+    title: 'Tolak KYC',
+    input: 'select',
+    inputOptions: {
+      'blur': 'Dokumen Buram / Tidak Terbaca',
+      'palsu': 'Indikasi Dokumen Palsu',
+      'expired': 'Masa Berlaku Habis'
+    },
+    inputPlaceholder: 'Pilih alasan penolakan',
+    showCancelButton: true,
+    confirmButtonText: 'Tolak',
+    confirmButtonColor: '#EF4444'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      document.getElementById(`kycCard-${id}`).remove();
+      App.toast.fire({ icon: 'info', title: 'Notifikasi penolakan dikirim ke user.' });
+    }
+  });
+}
+</script>
+
+</body>
+</html>

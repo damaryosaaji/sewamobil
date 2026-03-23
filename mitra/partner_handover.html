@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Serah Terima</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .qr-box {
+      width: 180px; height: 180px; border: 4px dashed var(--ws-border);
+      background: white; border-radius: 20px; display: flex;
+      align-items: center; justify-content: center; margin: 0 auto;
+      transition: all 0.3s;
+    }
+    .qr-box.success { border-color: var(--ws-success); background: #ECFDF5; }
+    
+    .otp-input {
+      width: 3rem; height: 3.5rem; text-align: center;
+      font-size: 1.5rem; font-weight: 800; border-radius: 12px;
+      border: 1px solid var(--ws-border); color: var(--ws-primary);
+    }
+    .otp-input:focus { border-color: var(--ws-primary); outline: none; box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2); }
+
+    .checklist-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--ws-border);
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="mobile-wrapper">
+  <div class="mobile-frame">
+    
+    <nav class="app-navbar border-bottom shadow-sm">
+      <div class="d-flex align-items-center">
+        <a href="partner_dashboard.html" class="text-dark text-decoration-none d-flex p-1 ms-n2">
+          <span class="material-icons-round">arrow_back</span>
+        </a>
+        <h1 class="h6 fw-bold mb-0 ms-2">Serah Terima Kunci</h1>
+      </div>
+      <a href="tel:+6281122334455" class="btn btn-circle bg-light border-0 shadow-none"><span class="material-icons-round text-primary-custom">call</span></a>
+    </nav>
+
+    <div class="mobile-content pt-4 px-3">
+      
+      <!-- Penyewa Info -->
+      <div class="ws-card bg-primary-light border-primary border-opacity-25 p-3 mb-4 d-flex justify-content-between align-items-center">
+        <div>
+          <div class="text-xs fw-semibold text-muted-custom mb-1">Penyewa: Andi Kusuma</div>
+          <div class="h6 fw-bold text-primary-custom mb-0 d-flex gap-1 align-items-center">
+            Toyota Avanza G
+            <span class="badge border border-primary text-primary-custom bg-white">B 1234 XYZ</span>
+          </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=facearea&facepad=2&w=150&h=150&q=80" 
+             alt="Penyewa" width="48" height="48" class="rounded-circle border border-primary border-opacity-50" style="object-fit:cover;">
+      </div>
+
+      <!-- Verifikasi Metode -->
+      <h2 class="h6 fw-bold mb-3">1. Verifikasi Kehadiran</h2>
+      
+      <ul class="nav nav-tabs mb-3 border-0" id="verifyTab" role="tablist">
+        <li class="nav-item w-50 pe-1" role="presentation">
+          <button class="nav-link bg-white border border-bottom-0 active w-100 rounded-top" data-bs-toggle="tab" data-bs-target="#qr" type="button">Scan QR</button>
+        </li>
+        <li class="nav-item w-50 ps-1" role="presentation">
+          <button class="nav-link bg-white border border-bottom-0 w-100 rounded-top" data-bs-toggle="tab" data-bs-target="#otp" type="button">Input PIN</button>
+        </li>
+      </ul>
+
+      <div class="tab-content ws-card p-4 text-center border-top-0 rounded-top-0 mb-4" id="verifyContent">
+        
+        <!-- Tab QR -->
+        <div class="tab-pane fade show active" id="qr">
+          <div class="qr-box mb-3" id="cameraBox" onclick="simulateScan()">
+            <div class="text-center text-muted-custom">
+              <span class="material-icons-round fs-1 mb-2">qr_code_scanner</span>
+              <div class="text-xs fw-semibold">Ketuk untuk Scan QR dari HP Penyewa</div>
+            </div>
+          </div>
+          <p class="text-xs text-muted-custom mb-0" id="scanStat">Sejajarkan QR Code di dalam garis bingkai.</p>
+        </div>
+
+        <!-- Tab OTP / PIN -->
+        <div class="tab-pane fade" id="otp">
+          <p class="text-sm fw-semibold text-muted-custom mb-3">Minta 4-digit PIN dari penyewa</p>
+          <div class="d-flex justify-content-center gap-2 mb-3">
+            <input type="number" class="otp-input" maxlength="1" oninput="this.nextElementSibling?.focus()">
+            <input type="number" class="otp-input" maxlength="1" oninput="this.nextElementSibling?.focus()">
+            <input type="number" class="otp-input" maxlength="1" oninput="this.nextElementSibling?.focus()">
+            <input type="number" class="otp-input" maxlength="1" oninput="verifyPIN()">
+          </div>
+          <p class="text-xs text-danger d-none" id="pinError">PIN Tidak valid. Coba lagi.</p>
+        </div>
+      </div>
+
+      <!-- Checklist Fisik -->
+      <h2 class="h6 fw-bold mb-3">2. Checklist Dokumen Fisik</h2>
+      <div class="ws-card bg-white p-3 mb-4 border-0">
+        
+        <label class="checklist-item w-100" style="cursor:pointer;">
+          <input type="checkbox" class="form-check-input check-doc mt-1" style="width:20px; height:20px;">
+          <div class="flex-grow-1">
+            <div class="fw-bold text-sm">Cocokkan KTP dengan Wajah</div>
+            <div class="text-xs text-muted-custom mt-1">Pastikan orang yang mengambil mobil adalah Andi Kusuma.</div>
+          </div>
+        </label>
+        
+        <label class="checklist-item w-100" style="cursor:pointer;">
+          <input type="checkbox" class="form-check-input check-doc mt-1" style="width:20px; height:20px;">
+          <div class="flex-grow-1">
+            <div class="fw-bold text-sm">Cek SIM A Asli</div>
+            <div class="text-xs text-muted-custom mt-1">Periksa masa berlaku SIM A fisik milik penyewa.</div>
+          </div>
+        </label>
+        
+        <label class="checklist-item w-100 border-0 pb-0" style="cursor:pointer;">
+          <input type="checkbox" class="form-check-input check-doc mt-1" style="width:20px; height:20px;">
+          <div class="flex-grow-1">
+            <div class="fw-bold text-sm">Serahkan STNK Asli / Fotokopi</div>
+            <div class="text-xs text-muted-custom mt-1">Sertakan di dalam kendaraan beserta kunci kontak.</div>
+          </div>
+        </label>
+
+      </div>
+
+      <!-- Action -->
+      <button class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm mb-4" id="btnHandover" onclick="goTracker()" disabled>
+        Lanjut Inspeksi Kendaraan <span class="material-icons-round align-middle text-sm ms-1">arrow_forward</span>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+  let isVerified = false;
+
+  function updateBtn() {
+    const checks = document.querySelectorAll('.check-doc:checked').length;
+    const btn = document.getElementById('btnHandover');
+    if (isVerified && checks === 3) {
+      btn.disabled = false;
+    } else {
+      btn.disabled = true;
+    }
+  }
+
+  // Update button bila checkbox diklik
+  document.querySelectorAll('.check-doc').forEach(cb => {
+    cb.addEventListener('change', updateBtn);
+  });
+
+  function simulateScan() {
+    const box = document.getElementById('cameraBox');
+    const stat = document.getElementById('scanStat');
+    
+    box.innerHTML = '<div class="spinner-border text-primary" role="status"></div>';
+    
+    setTimeout(() => {
+      box.classList.add('success');
+      box.innerHTML = '<span class="material-icons-round text-success" style="font-size:64px;">check_circle</span>';
+      stat.innerHTML = '<span class="text-success fw-bold">Verifikasi Penyewa Valid (BK-2401-001)</span>';
+      isVerified = true;
+      App.toast.fire({ icon: 'success', title: 'Barcode terverifikasi.' });
+      updateBtn();
+    }, 1500);
+  }
+
+  function verifyPIN() {
+    isVerified = true;
+    App.toast.fire({ icon: 'success', title: 'PIN Valid.' });
+    updateBtn();
+  }
+
+  function goTracker() {
+    App.swal.fire({
+      icon: 'info',
+      title: 'Condition Tracker',
+      text: 'Sekarang akan beralih ke formulir pencatatan kondisi kendaraan bersama penyewa.',
+      confirmButtonText: 'Buka Form'
+    }).then((res) => {
+      if(res.isConfirmed) {
+        // Pada prakteknya, URL ke halaman tracker mungkin butuh role beda/tampilan beda
+        // Tapi kita manfaatkan car-condition.html yg sdh ada utk simulasi shared page.
+        window.location.href = '../customer/car-condition.html';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

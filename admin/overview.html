@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SewaMobil Admin – Overview & Analitik</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+    .chart-bar-wrap { display: flex; align-items: flex-end; gap: 6px; height: 100px; padding-bottom: 4px; }
+    .chart-bar { flex: 1; background: linear-gradient(to top, var(--primary), var(--secondary)); border-radius: 4px 4px 0 0; min-height: 8px; transition: var(--transition); cursor: pointer; position: relative; }
+    .chart-bar:hover { opacity: 0.8; }
+    .chart-bar .tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-primary);
+      color: white;
+      font-size: 10px;
+      padding: 3px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      display: none;
+      margin-bottom: 4px;
+    }
+    .chart-bar:hover .tooltip { display: block; }
+    .chart-label { display: flex; gap: 6px; justify-content: space-between; font-size: 9px; color: var(--text-muted); }
+    .recent-list { display: flex; flex-direction: column; }
+    .recent-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .recent-item:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">
+        <div class="logo-icon">🚗</div>
+        <div class="logo-text">Sewa<span>Mobil</span></div>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <div class="sidebar-section-title">Dashboard</div>
+      <a href="overview.html" class="sidebar-item active">
+        <span class="icon">📊</span>
+        <span class="label">Overview & Analitik</span>
+      </a>
+
+      <div class="sidebar-section-title">Verifikasi</div>
+      <a href="kyc-center.html" class="sidebar-item">
+        <span class="icon">🪪</span>
+        <span class="label">Pusat KYC</span>
+        <span class="badge">2</span>
+      </a>
+
+      <div class="sidebar-section-title">Operasional</div>
+      <a href="disputes.html" class="sidebar-item">
+        <span class="icon">⚖️</span>
+        <span class="label">Manajemen Sengketa</span>
+        <span class="badge">1</span>
+      </a>
+      <a href="users.html" class="sidebar-item">
+        <span class="icon">👥</span>
+        <span class="label">Manajemen Pengguna</span>
+      </a>
+
+      <div class="sidebar-section-title">Lainnya</div>
+      <a href="../index.html" class="sidebar-item">
+        <span class="icon">🏠</span>
+        <span class="label">Kembali ke Portal</span>
+      </a>
+      <a href="../customer/login.html" class="sidebar-item">
+        <span class="icon">🚪</span>
+        <span class="label">Logout</span>
+      </a>
+    </nav>
+
+    <div style="padding:20px;font-size:11px;color:#475569;border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="color:white;font-weight:600;">Admin Utama</div>
+      <div>superadmin@sewamobil.id</div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-content">
+    <div class="admin-topbar">
+      <div>
+        <div class="topbar-title">Overview & Analitik</div>
+        <div class="topbar-subtitle">Desember 2024 · Data real-time</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary btn-sm">📅 Filter Periode</button>
+        <button class="btn btn-primary btn-sm">📥 Export Laporan</button>
+        <div class="avatar">SA</div>
+      </div>
+    </div>
+
+    <div class="admin-main">
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">💰</div>
+          <div>
+            <div class="stat-value">Rp 48,7 jt</div>
+            <div class="stat-label">Gross Merchandise Value</div>
+            <span class="stat-change up">▲ 18.3%</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">📈</div>
+          <div>
+            <div class="stat-value">Rp 1,46 jt</div>
+            <div class="stat-label">Total Komisi Platform</div>
+            <span class="stat-change up">▲ 18.3%</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">👥</div>
+          <div>
+            <div class="stat-value">1.247</div>
+            <div class="stat-label">Daily Active Users</div>
+            <span class="stat-change up">▲ 14.5%</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">📋</div>
+          <div>
+            <div class="stat-value">23</div>
+            <div class="stat-label">Booking Aktif</div>
+            <span class="stat-change up">▲ 21.1%</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">⚖️</div>
+          <div>
+            <div class="stat-value">2</div>
+            <div class="stat-label">Sengketa Aktif</div>
+            <span class="stat-change down">▼ perlu tindak lanjut</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Revenue Chart -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📊 Revenue 2024</span>
+            <span class="badge-pill badge-info">GMV Bulanan</span>
+          </div>
+          <div class="card-body">
+            <div class="chart-bar-wrap" id="chart"></div>
+            <div class="chart-label" id="chart-labels"></div>
+          </div>
+        </div>
+
+        <!-- User Growth -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">👥 Pertumbuhan User</span>
+            <span class="badge-pill badge-success">2024</span>
+          </div>
+          <div class="card-body">
+            <div class="chart-bar-wrap" id="dau-chart" style="--color1:#10B981;--color2:#6EE7B7;"></div>
+            <div class="chart-label" id="dau-labels"></div>
+            <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div style="background:#ECFDF5;border-radius:10px;padding:12px;text-align:center;">
+                <div style="font-size:20px;font-weight:800;color:var(--success);">247</div>
+                <div style="font-size:11px;color:var(--text-muted);">New User Des</div>
+              </div>
+              <div style="background:#EFF6FF;border-radius:10px;padding:12px;text-align:center;">
+                <div style="font-size:20px;font-weight:800;color:var(--primary);">1.890</div>
+                <div style="font-size:11px;color:var(--text-muted);">Total User</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:20px;"></div>
+
+      <!-- Recent Bookings Table -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">📋 Transaksi Terbaru</span>
+          <div class="flex gap-8">
+            <input type="text" class="form-control" placeholder="Cari ID booking..." style="width:200px;padding:6px 12px;font-size:13px;" />
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID Booking</th>
+                <th>Penyewa</th>
+                <th>Kendaraan</th>
+                <th>Tanggal</th>
+                <th>Total</th>
+                <th>Komisi</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span style="font-family:monospace;font-size:12px;color:var(--primary);">BK-2024-001</span></td>
+                <td>
+                  <div class="flex items-center gap-8">
+                    <div class="avatar" style="width:28px;height:28px;font-size:11px;">BS</div>
+                    <span>Budi Santoso</span>
+                  </div>
+                </td>
+                <td>Toyota Avanza 2022</td>
+                <td>20–23 Des</td>
+                <td class="font-bold">Rp 1.127.000</td>
+                <td style="color:var(--success);">Rp 33.810</td>
+                <td><span class="badge-pill badge-gray">✅ Selesai</span></td>
+                <td><button class="btn btn-secondary btn-sm">Detail</button></td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:12px;color:var(--primary);">BK-2024-002</span></td>
+                <td>
+                  <div class="flex items-center gap-8">
+                    <div class="avatar" style="width:28px;height:28px;font-size:11px;background:linear-gradient(135deg,#F59E0B,#EF4444);">SD</div>
+                    <span>Sari Dewi</span>
+                  </div>
+                </td>
+                <td>Mitsubishi Xpander 2023</td>
+                <td>24–27 Des</td>
+                <td class="font-bold">Rp 1.502.000</td>
+                <td style="color:var(--success);">Rp 45.060</td>
+                <td><span class="badge-pill badge-info">⏳ Aktif</span></td>
+                <td><button class="btn btn-secondary btn-sm">Detail</button></td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:12px;color:var(--primary);">BK-2024-003</span></td>
+                <td>
+                  <div class="flex items-center gap-8">
+                    <div class="avatar" style="width:28px;height:28px;font-size:11px;background:linear-gradient(135deg,#2563EB,#7C3AED);">DL</div>
+                    <span>Dewi Lestari</span>
+                  </div>
+                </td>
+                <td>Honda Jazz 2021</td>
+                <td>28–29 Des</td>
+                <td class="font-bold">Rp 282.000</td>
+                <td style="color:var(--text-muted);">–</td>
+                <td><span class="badge-pill badge-warning">⌚ Pending</span></td>
+                <td><button class="btn btn-secondary btn-sm">Detail</button></td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:12px;color:var(--primary);">BK-2024-004</span></td>
+                <td>
+                  <div class="flex items-center gap-8">
+                    <div class="avatar" style="width:28px;height:28px;font-size:11px;">BS</div>
+                    <span>Budi Santoso</span>
+                  </div>
+                </td>
+                <td>Suzuki Ertiga 2022</td>
+                <td>15–17 Des</td>
+                <td class="font-bold">Rp 652.000</td>
+                <td style="color:var(--success);">Rp 18.000</td>
+                <td><span class="badge-pill badge-gray">✅ Selesai</span></td>
+                <td><button class="btn btn-secondary btn-sm">Detail</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer flex justify-between items-center">
+          <span style="font-size:13px;color:var(--text-muted);">Menampilkan 4 dari 47 transaksi</span>
+          <div class="flex gap-8">
+            <button class="btn btn-secondary btn-sm">← Prev</button>
+            <button class="btn btn-primary btn-sm">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const revenue = [3200,4100,3800,5200,4700,6100,5400,7200,6800,8100,7500,9300];
+const newUsers = [120,145,98,167,134,189,156,201,178,223,198,247];
+const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agt","Sep","Okt","Nov","Des"];
+
+const maxRev = Math.max(...revenue);
+const maxUser = Math.max(...newUsers);
+
+const chart = document.getElementById('chart');
+const chartLabels = document.getElementById('chart-labels');
+revenue.forEach((v, i) => {
+  const bar = document.createElement('div');
+  bar.className = 'chart-bar';
+  bar.style.height = ((v / maxRev) * 100) + '%';
+  bar.innerHTML = `<div class="tooltip">Rp ${(v).toLocaleString()}k</div>`;
+  chart.appendChild(bar);
+  const label = document.createElement('span');
+  label.textContent = months[i];
+  chartLabels.appendChild(label);
+});
+
+const dauChart = document.getElementById('dau-chart');
+const dauLabels = document.getElementById('dau-labels');
+newUsers.forEach((v, i) => {
+  const bar = document.createElement('div');
+  bar.className = 'chart-bar';
+  bar.style.cssText = `height:${((v/maxUser)*100)}%;background:linear-gradient(to top, #10B981, #6EE7B7);`;
+  bar.innerHTML = `<div class="tooltip">${v} user</div>`;
+  dauChart.appendChild(bar);
+  const label = document.createElement('span');
+  label.textContent = months[i];
+  dauLabels.appendChild(label);
+});
+</script>
+</body>
+</html>

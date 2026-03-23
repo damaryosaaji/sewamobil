@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Admin Dashboard</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+  
+  <style>
+    /* Admin specific styles */
+    .sidebar-brand {
+      height: 64px; display: flex; align-items: center; padding: 0 1.5rem;
+      border-bottom: 1px solid var(--ws-border); gap: 0.5rem;
+    }
+    .sidebar-nav { padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+      color: var(--ws-secondary); text-decoration: none; border-radius: var(--ws-radius-md);
+      font-weight: 600; transition: all 0.2s;
+    }
+    .nav-item:hover, .nav-item.active {
+      background-color: var(--ws-primary-light); color: var(--ws-primary);
+    }
+    
+    .stat-card {
+      background: white; border: 1px solid var(--ws-border); border-radius: var(--ws-radius-lg);
+      padding: 1.5rem; display: flex; align-items: center; gap: 1rem;
+    }
+    .stat-icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="admin-layout">
+  
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar shadow-sm">
+    <div class="sidebar-brand">
+      <div style="width: 32px; height: 32px; background: var(--ws-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+        <span class="material-icons-round fs-6">directions_car</span>
+      </div>
+      <span class="h6 fw-extrabold mb-0 text-primary-custom" style="letter-spacing:-0.5px;">WheelsShare Admin</span>
+    </div>
+    <div class="sidebar-nav">
+      <div class="text-xs fw-bold text-muted-custom text-uppercase px-3 mb-2">Main Menu</div>
+      <a href="admin_dashboard.html" class="nav-item active">
+        <span class="material-icons-round">space_dashboard</span> Ringkasan
+      </a>
+      <a href="admin_kyc.html" class="nav-item">
+        <span class="material-icons-round">how_to_reg</span> Pusat KYC
+        <span class="badge bg-danger rounded-pill ms-auto">2</span>
+      </a>
+      <a href="admin_dispute.html" class="nav-item">
+        <span class="material-icons-round">gavel</span> Sengketa
+      </a>
+      <a href="admin_users.html" class="nav-item">
+        <span class="material-icons-round">group</span> Pengguna
+      </a>
+    </div>
+    <div class="mt-auto p-4">
+      <button class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2 fw-semibold" onclick="App.logout()">
+        <span class="material-icons-round fs-5">logout</span> Keluar
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="admin-main">
+    
+    <!-- TOPBAR -->
+    <header class="admin-topbar shadow-sm">
+      <div class="fw-bold fs-5">Dashboard Analitik</div>
+      <div class="d-flex align-items-center gap-4">
+        <div class="search-wrapper" style="width: 250px;">
+          <span class="material-icons-round text-sm">search</span>
+          <input type="text" class="form-control form-control-sm bg-light" placeholder="Cari ID Pesanan...">
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <img src="https://ui-avatars.com/api/?name=Admin&background=1976D2&color=fff" class="rounded-circle" width="36" height="36" alt="Admin">
+          <div>
+            <div class="fw-bold text-sm lh-1">Superadmin</div>
+            <div class="text-xs text-muted-custom">Ops Manager</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="admin-content bg-light">
+      
+      <!-- STATS GRID -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon bg-primary bg-opacity-10 text-primary-custom">
+              <span class="material-icons-round fs-2">account_balance_wallet</span>
+            </div>
+            <div>
+              <div class="text-xs fw-bold text-muted-custom mb-1 text-uppercase">Total GMV (YTD)</div>
+              <div class="h4 fw-extrabold mb-0">Rp 880 Jt</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon bg-success bg-opacity-10 text-success">
+              <span class="material-icons-round fs-2">trending_up</span>
+            </div>
+            <div>
+              <div class="text-xs fw-bold text-muted-custom mb-1 text-uppercase">Pesanan Selesai</div>
+              <div class="h4 fw-extrabold mb-0">1,245</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+              <span class="material-icons-round fs-2">group</span>
+            </div>
+            <div>
+              <div class="text-xs fw-bold text-muted-custom mb-1 text-uppercase">Active Users</div>
+              <div class="h4 fw-extrabold mb-0">3,402</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon bg-danger bg-opacity-10 text-danger">
+              <span class="material-icons-round fs-2">warning</span>
+            </div>
+            <div>
+              <div class="text-xs fw-bold text-muted-custom mb-1 text-uppercase">Dispute Ratio</div>
+              <div class="h4 fw-extrabold mb-0">1.2%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS AREA -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-8">
+          <div class="ws-card p-4 h-100 border-0">
+            <h3 class="h6 fw-bold mb-4">Pertumbuhan Gross Merchandise Value (2023)</h3>
+            <!-- ECharts Container -->
+            <div id="revenueChart" style="width: 100%; height: 320px;"></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="ws-card p-4 h-100 border-0">
+            <h3 class="h6 fw-bold mb-4">Komposisi Armada Unit</h3>
+            <!-- ECharts Container -->
+            <div id="typeChart" style="width: 100%; height: 320px;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- ECharts -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<!-- Shared Data & App logic -->
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/admin-charts.js"></script>
+
+</body>
+</html>

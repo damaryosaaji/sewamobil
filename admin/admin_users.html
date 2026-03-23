@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelsShare - Admin Daftar Pengguna</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .sidebar-brand { height: 64px; display: flex; align-items: center; padding: 0 1.5rem; border-bottom: 1px solid var(--ws-border); gap: 0.5rem; }
+    .sidebar-nav { padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+      color: var(--ws-secondary); text-decoration: none; border-radius: var(--ws-radius-md);
+      font-weight: 600; transition: all 0.2s;
+    }
+    .nav-item:hover, .nav-item.active { background-color: var(--ws-primary-light); color: var(--ws-primary); }
+    
+    /* Table overrides */
+    .table-hover tbody tr:hover { background-color: #F8FAFC !important; cursor: pointer; }
+    .table th { background-color: #F1F5F9; color: var(--ws-secondary); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: none; }
+    .table td { vertical-align: middle; border-bottom-color: var(--ws-border); padding: 1rem 0.5rem; }
+  </style>
+</head>
+<body>
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar shadow-sm flex-shrink-0">
+    <!-- ... (Same sidebar structure) ... -->
+    <div class="sidebar-brand">
+      <div style="width: 32px; height: 32px; background: var(--ws-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+        <span class="material-icons-round fs-6">directions_car</span>
+      </div>
+      <span class="h6 fw-extrabold mb-0 text-primary-custom">WheelsShare Admin</span>
+    </div>
+    <div class="sidebar-nav">
+      <a href="admin_dashboard.html" class="nav-item"><span class="material-icons-round">space_dashboard</span> Ringkasan</a>
+      <a href="admin_kyc.html" class="nav-item"><span class="material-icons-round">how_to_reg</span> Pusat KYC</a>
+      <a href="admin_dispute.html" class="nav-item"><span class="material-icons-round">gavel</span> Sengketa</a>
+      <a href="admin_users.html" class="nav-item active"><span class="material-icons-round">group</span> Pengguna</a>
+    </div>
+    <div class="mt-auto p-4"><button class="btn btn-outline-danger w-100 fw-semibold" onclick="App.logout()">Keluar</button></div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="admin-main">
+    <header class="admin-topbar shadow-sm">
+      <div class="fw-bold fs-5">Manajemen Pengguna</div>
+    </header>
+
+    <div class="admin-content bg-light p-4">
+      
+      <div class="ws-card bg-white p-4 border-0">
+        
+        <!-- Table Toolbar -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="search-wrapper" style="width: 300px;">
+            <span class="material-icons-round text-sm">search</span>
+            <input type="text" class="form-control bg-light" placeholder="Cari nama, ID, atau email..." id="searchInput" onkeyup="filterTable()">
+          </div>
+          <div class="d-flex gap-2">
+            <select class="form-select bg-light border-0 fw-semibold text-sm" style="width: 150px;" id="roleFilter" onchange="filterTable()">
+              <option value="all">Semua Peran</option>
+              <option value="customer">Pelanggan</option>
+              <option value="mitra">Mitra</option>
+            </select>
+            <select class="form-select bg-light border-0 fw-semibold text-sm" style="width: 150px;" id="statusFilter" onchange="filterTable()">
+              <option value="all">Semua Status</option>
+              <option value="active">Aktif</option>
+              <option value="banned">Diblokir (Banned)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" id="userTable">
+            <thead>
+              <tr>
+                <th class="ps-3">Pengguna</th>
+                <th>Role</th>
+                <th>Status Akun</th>
+                <th>KYC</th>
+                <th>Terdaftar</th>
+                <th class="text-end pe-3">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination Dummy -->
+        <div class="d-flex justify-content-between align-items-center mt-4">
+          <span class="text-xs text-muted-custom fw-semibold">Menampilkan 1-6 dari 3,402 pengguna</span>
+          <nav>
+            <ul class="pagination pagination-sm mb-0">
+              <li class="page-item disabled"><a class="page-link" href="javascript:void(0)">Sebelumnya</a></li>
+              <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">Selanjutnya</a></li>
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+let users = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  users = [...WS_DATA.users]; // Copy array
+  renderTable(users);
+});
+
+function renderTable(data) {
+  const tbody = document.getElementById('userTableBody');
+  if(data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted-custom py-4">Tidad ada data ditemukan.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = data.map(u => {
+    // Styling Badge Role
+    let roleBadge = u.role === 'mitra' ? 
+      '<span class="badge badge-soft-warning"><span class="material-icons-round text-xs me-1 align-middle">directions_car</span> Mitra Dewa</span>' : 
+      '<span class="badge badge-soft-primary"><span class="material-icons-round text-xs me-1 align-middle">person</span> Pelanggan</span>';
+    
+    // Status Akun
+    let statBadge = u.status === 'active' ? 
+      '<span class="badge badge-soft-success">Aktif</span>' : 
+      `<span class="badge bg-danger text-white cursor-pointer" onclick="viewBanReason('${u.reason}')">Banned <span class="material-icons-round text-xs align-middle">info</span></span>`;
+    
+    // KYC
+    let kycBadge = '';
+    if (u.kyc === 'verified') kycBadge = '<span class="text-success fw-bold text-xs d-flex align-items-center gap-1"><span class="material-icons-round fs-6">verified</span> Terverifikasi</span>';
+    else if (u.kyc === 'pending') kycBadge = '<span class="text-warning fw-bold text-xs d-flex align-items-center gap-1"><span class="material-icons-round fs-6">hourglass_empty</span> Antri</span>';
+    else kycBadge = '<span class="text-muted text-xs">Belum Upload</span>';
+
+    // Button Ban / Unban
+    let actionBtn = u.status === 'active' ?
+      `<button class="btn btn-outline-danger btn-sm fw-bold px-3 py-1 rounded-pill" onclick="banUser('${u.id}', '${u.name}')">Blokir Akun</button>` :
+      `<button class="btn btn-primary btn-sm fw-bold px-3 py-1 rounded-pill" onclick="unbanUser('${u.id}', '${u.name}')">Buka Blokir</button>`;
+
+    return `
+      <tr>
+        <td class="ps-3">
+          <div class="d-flex align-items-center gap-3">
+            <img src="${u.avatar}" width="40" height="40" class="rounded-circle" style="object-fit:cover;">
+            <div>
+              <div class="fw-bold text-sm text-dark">${u.name} <span class="fw-normal text-muted-custom font-monospace ms-1 text-xs">${u.id}</span></div>
+              <div class="text-xs text-muted-custom">${u.email}</div>
+            </div>
+          </div>
+        </td>
+        <td>${roleBadge}</td>
+        <td>${statBadge}</td>
+        <td>${kycBadge}</td>
+        <td class="text-sm fw-semibold text-secondary">${u.joinDate}</td>
+        <td class="text-end pe-3">${actionBtn}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function filterTable() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const role = document.getElementById('roleFilter').value;
+  const stat = document.getElementById('statusFilter').value;
+
+  const filtered = WS_DATA.users.filter(u => {
+    const matchSearch = u.name.toLowerCase().includes(search) || u.email.toLowerCase().includes(search) || u.id.toLowerCase().includes(search);
+    const matchRole = role === 'all' || u.role === role;
+    const matchStat = stat === 'all' || u.status === stat;
+    return matchSearch && matchRole && matchStat;
+  });
+
+  renderTable(filtered);
+}
+
+function viewBanReason(reason) {
+  App.swal.fire({ icon: 'error', title: 'Alasan Pemblokiran', text: reason, confirmButtonText: 'Tutup' });
+}
+
+function banUser(id, name) {
+  App.swal.fire({
+    title: `Blokir ${name}?`,
+    input: 'text',
+    inputPlaceholder: 'Alasan pemblokiran (Wajib)',
+    showCancelButton: true,
+    confirmButtonText: 'Ya, Blokir Permanen',
+    confirmButtonColor: '#EF4444',
+    inputValidator: (value) => { if (!value) return 'Alasan harus diisi!' }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Dummy mutate state
+      let user = WS_DATA.users.find(u => u.id === id);
+      user.status = 'banned';
+      user.reason = result.value;
+      filterTable();
+      App.toast.fire({ icon: 'success', title: 'Akun berhasil ditangguhkan.' });
+    }
+  });
+}
+
+function unbanUser(id, name) {
+  App.swal.fire({
+    title: `Buka Blokir ${name}?`,
+    text: 'Pengguna akan kembali mendapat akses menyewa/menjadi mitra.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Pulihkan Akun',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let user = WS_DATA.users.find(u => u.id === id);
+      user.status = 'active';
+      user.reason = '';
+      filterTable();
+      App.toast.fire({ icon: 'success', title: 'Akun berhasil dipulihkan.' });
+    }
+  });
+}
+</script>
+
+</body>
+</html>
