@@ -8,6 +8,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
   <link href="../assets/css/style.css" rel="stylesheet">
 </head>
@@ -16,25 +19,33 @@
 <div class="mobile-wrapper">
   <div class="mobile-frame">
     
-    <nav class="app-navbar border-bottom shadow-sm">
-      <div class="d-flex align-items-center">
-        <h1 class="h6 fw-bold mb-0">Eksplorasi Peta</h1>
-      </div>
-      <div class="search-wrapper" style="width: 200px;">
-        <span class="material-icons-round text-sm">search</span>
-        <input type="text" class="form-control form-control-sm bg-light" placeholder="Cari lokasi...">
-      </div>
-    </nav>
-
-    <div class="mobile-content p-0 position-relative">
-      <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600&h=800" 
-           alt="Map Background" class="img-fluid w-100 h-100 object-fit-cover" style="opacity: 0.8;">
+    <div class="mobile-content p-0 position-relative d-flex flex-column" style="height: calc(100vh - 65px);">
       
-      <!-- Fake Pin -->
-      <div class="position-absolute top-50 start-50 translate-middle text-center" style="cursor: pointer;" onclick="App.swal.fire('Toyota Avanza', 'Tersedia di lokasi ini. Rp 350.000/hari', 'info')">
-        <span class="material-icons-round text-primary-custom" style="font-size: 48px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">location_on</span>
-        <div class="badge bg-white text-dark shadow-sm fw-bold">1 Unit Tersedia</div>
+      <!-- Map Container -->
+      <div id="map" class="w-100 flex-grow-1" style="z-index: 1;"></div>
+
+      <!-- Floating Header / Search Bar (OVER the map) -->
+      <div class="position-absolute w-100 p-3" style="top: 0; left: 0; z-index: 1000;">
+        <div class="bg-white rounded-pill shadow-sm d-flex align-items-center px-3 py-2 border" style="height: 48px;">
+           <span class="material-icons-round text-dark fs-5 me-2 opacity-75">menu</span>
+           <input type="text" class="form-control border-0 shadow-none bg-transparent p-0 fs-6 w-100" placeholder="Cari area penjemputan...">
+           <div class="rounded-circle bg-light d-flex align-items-center justify-content-center flex-shrink-0 ms-2" style="width:32px; height:32px;">
+             <span class="material-icons-round text-dark fs-5 opacity-75">mic</span>
+           </div>
+        </div>
+        <!-- Quick Filters -->
+        <div class="d-flex gap-2 mt-3 overflow-auto pb-1" style="scrollbar-width: none;">
+           <span class="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill d-flex align-items-center gap-1" style="font-weight: 600;"><span class="material-icons-round text-primary-custom" style="font-size:16px;">electric_car</span> EV Only</span>
+           <span class="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill d-flex align-items-center gap-1" style="font-weight: 600;"><span class="material-icons-round text-success" style="font-size:16px;">local_offer</span> Promo</span>
+           <span class="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill d-flex align-items-center gap-1" style="font-weight: 600;"><span class="material-icons-round text-warning" style="font-size:16px;">star</span> Top Rated</span>
+        </div>
       </div>
+
+      <!-- Current Location Floating Button -->
+      <button class="btn btn-white bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center position-absolute" style="bottom: 24px; right: 16px; width: 48px; height: 48px; z-index: 1000; border: 1px solid var(--ws-border);" onclick="if(map && userLat && userLng) map.setView([userLat, userLng], 14);">
+        <span class="material-icons-round text-primary-custom">my_location</span>
+      </button>
+
     </div>
 
     <!-- BOTTOM NAVIGATION -->
@@ -59,7 +70,164 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="../assets/js/app.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Inisialisasi Peta (Default koordinat Jakarta)
+  const map = L.map('map').setView([-6.200000, 106.816666], 13);
+  
+  // Custom Zoom Control Position
+  map.zoomControl.setPosition('bottomright');
+  
+  // Gunakan OpenStreetMap Tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  // Variabel global agar bisa dipanggil tombol "my_location"
+  let userLat, userLng;
+
+  // Ambil Geolokasi User (HTML5 Geolocation API)
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      userLat = position.coords.latitude;
+      userLng = position.coords.longitude;
+      
+      // Pindahkan peta ke lokasi user
+      map.setView([userLat, userLng], 14);
+      
+      // Marker khusus posisi user
+      const userMarker = L.circleMarker([userLat, userLng], {
+        color: '#ffffff',
+        fillColor: '#1976D2',
+        fillOpacity: 1,
+        radius: 8,
+        weight: 3
+      }).addTo(map);
+      userMarker.bindPopup('<b class="text-primary-custom text-sm">📍 Lokasi Anda</b>').openPopup();
+
+      // Generate dummy mobil di sekitar user
+      const dummyCars = [
+        { lat: userLat + 0.005, lng: userLng + 0.005, name: 'Toyota Land Cruiser GXR', price: 'Rp 1.800.000/hari' },
+        { lat: userLat - 0.003, lng: userLng + 0.008, name: 'Honda Brio RS', price: 'Rp 300.000/hari' },
+        { lat: userLat + 0.007, lng: userLng - 0.004, name: 'Mitsubishi Xpander', price: 'Rp 400.000/hari' },
+        { lat: userLat - 0.006, lng: userLng - 0.006, name: 'BMW Seri 3', price: 'Rp 2.500.000/hari' }
+      ];
+
+      // Custom icon modern untuk mobil
+      const carIcon = L.divIcon({
+        html: `<div style="background:white; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 6px rgba(0,0,0,0.2); border: 2px solid var(--ws-primary);">
+                 <span class="material-icons-round text-primary-custom" style="font-size:20px;">directions_car</span>
+               </div>`,
+        className: '',
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
+        popupAnchor: [0, -18]
+      });
+
+      let routeLine = null;
+
+      // Render marker ke map
+      dummyCars.forEach(car => {
+        const marker = L.marker([car.lat, car.lng], { icon: carIcon }).addTo(map);
+        
+        // Buat ID unik untuk popup agar bisa diupdate isinya via AJAX
+        const popupId = 'popup-' + Math.random().toString(36).substr(2, 9);
+        const gmapsLink = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${car.lat},${car.lng}&travelmode=driving`;
+
+        const popupContent = `
+          <div class="text-center p-1" style="min-width: 170px;">
+            <div class="fw-bold text-dark text-sm mb-1">${car.name}</div>
+            <div class="text-primary-custom fw-semibold mb-2" style="font-size: 0.75rem;">${car.price}</div>
+            
+            <div class="d-flex justify-content-center gap-3 mb-3 border-top border-light pt-2" id="${popupId}">
+               <!-- Loading indicator -->
+               <div class="text-center p-2">
+                  <span class="spinner-border spinner-border-sm text-primary-custom mb-1" role="status"></span>
+                  <div class="text-xs text-muted" style="font-size:0.6rem;">Menghitung rute...</div>
+               </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <a href="${gmapsLink}" target="_blank" class="btn btn-sm btn-light border w-50 rounded-pill text-xs fw-bold d-flex justify-content-center align-items-center px-0"><span class="material-icons-round fs-6 text-primary-custom me-1">directions</span> Arah</a>
+              <a href="detail_mobil.html" class="btn btn-sm btn-primary text-white w-50 rounded-pill text-xs fw-bold d-flex justify-content-center align-items-center px-0" style="color: white !important;">Sewa</a>
+            </div>
+          </div>
+        `;
+
+        marker.bindPopup(popupContent, { minWidth: 180 });
+
+        // Draw polyline via OSRM API when marker clicked
+        marker.on('click', function() {
+           if (routeLine) { map.removeLayer(routeLine); }
+
+           // Call OSRM Public API
+           const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${userLng},${userLat};${car.lng},${car.lat}?overview=full&geometries=geojson`;
+           
+           fetch(osrmUrl)
+            .then(res => res.json())
+            .then(data => {
+               if(data.routes && data.routes.length > 0) {
+                 const route = data.routes[0];
+                 const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+                 
+                 // Update Popup ETA and Distance
+                 const actDistKm = (route.distance / 1000).toFixed(1);
+                 const actEtaMins = Math.max(1, Math.ceil(route.duration / 60));
+                 
+                 const metricsHtml = `
+                   <div class="text-center">
+                      <span class="material-icons-round text-success" style="font-size: 16px;">directions_car</span>
+                      <div class="text-xs fw-bold text-dark">${actDistKm} km</div>
+                   </div>
+                   <div class="text-center">
+                      <span class="material-icons-round text-warning" style="font-size: 16px;">schedule</span>
+                      <div class="text-xs fw-bold text-dark">${actEtaMins} mnt</div>
+                   </div>
+                 `;
+                 
+                 const popupContainer = document.getElementById(popupId);
+                 if(popupContainer) { popupContainer.innerHTML = metricsHtml; }
+
+                 routeLine = L.polyline(coords, {
+                    color: '#1976D2',
+                    weight: 5,
+                    opacity: 0.8,
+                    lineJoin: 'round'
+                 }).addTo(map);
+                 
+                 map.fitBounds(routeLine.getBounds(), { padding: [50, 50], maxZoom: 15 });
+               }
+            })
+            .catch(err => {
+               console.error('OSRM fail', err);
+               const popupContainer = document.getElementById(popupId);
+               if(popupContainer) { popupContainer.innerHTML = `<div class="text-xs text-danger py-2">Gagal memuat rute jalan</div>`; }
+            });
+        });
+      });
+      
+      // Cleanup polyline when popup closes
+      map.on('popupclose', function() {
+         if (routeLine) { 
+            map.removeLayer(routeLine); 
+            routeLine = null;
+         }
+      });
+      
+    }, (error) => {
+      console.error(error);
+      App.swal.fire('Info Lokasi', 'Tidak dapat mengakses geolokasi, menampilkan lokasi default.', 'info');
+    }, { timeout: 10000 });
+  } else {
+    App.swal.fire('Error', 'Geolokasi tidak didukung oleh browser Anda.', 'error');
+  }
+});
+</script>
 
 </body>
 </html>
