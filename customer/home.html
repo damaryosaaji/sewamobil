@@ -13,22 +13,8 @@
   <link href="../assets/css/style.css" rel="stylesheet">
 
   <style>
-    /* Gradient Hero Box */
-    .hero-box {
-      background: linear-gradient(135deg, var(--ws-primary), #3B82F6);
-      border-radius: 0 0 2rem 2rem;
-      padding: 1rem 1.5rem 3.5rem;
-      color: white;
-      position: relative;
-    }
-
-    /* Search Bar Half Inside Hero */
-    .hero-search {
-      position: absolute;
-      bottom: -1.75rem;
-      left: 1.5rem;
-      right: 1.5rem;
-      z-index: 10;
+    .cursor-pointer {
+      cursor: pointer;
     }
 
     /* Floating Chip Filter */
@@ -49,8 +35,8 @@
     }
 
     .chip-filter.active {
-      background: var(--ws-primary);
-      color: white;
+      background: rgba(25, 118, 210, 0.05);
+      color: var(--ws-primary);
       border-color: var(--ws-primary);
     }
 
@@ -108,61 +94,80 @@
 
       <div class="mobile-content bg-light p-0">
 
-        <!-- HERO SECTION -->
-        <div class="hero-box">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="d-flex align-items-center gap-2">
-              <a href="profile.html" class="d-block">
-                <img
-                  src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80"
-                  class="rounded-circle border border-2 border-white" width="40" height="40" alt="Avatar">
-              </a>
-              <div>
-                <p class="text-xs mb-0 text-white-50 lh-1">Lokasi saat ini</p>
-                <div class="d-flex align-items-center gap-1 fw-bold text-sm">
-                  <span class="material-icons-round fs-6">place</span> Jakarta Selatan
-                </div>
-              </div>
+        <!-- HEADER SECTION -->
+        <div class="d-flex justify-content-between align-items-center mb-4 px-4 pt-4">
+          <div>
+            <p class="text-xs mb-0 text-muted lh-1">Lokasi saat ini</p>
+            <div class="d-flex align-items-center gap-1 fw-bold text-sm text-dark cursor-pointer mt-1">
+              <span class="material-icons-round fs-6 text-primary-custom">place</span> 
+              Jakarta Selatan 
+              <span class="material-icons-round fs-6 text-muted">expand_more</span>
             </div>
-            <a href="notifications.html"
-              class="btn btn-circle bg-white bg-opacity-25 border-0 text-white position-relative shadow-none">
-              <span class="material-icons-round fs-5">notifications</span>
-              <span
-                class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
-            </a>
           </div>
-
-          <h2 class="h4 fw-extrabold mb-0 lh-base">
-            Temukan Mobil <br>Pilihanmu Hari Ini
-          </h2>
-
-          <!-- Search input half out -->
-          <div class="hero-search search-wrapper">
-            <span class="material-icons-round">search</span>
-            <input type="text" class="form-control form-control-lg bg-white shadow-sm border-0"
-              style="border-radius: 50rem;" placeholder="Cari merk atau kota...">
+          <div class="d-flex align-items-center gap-3">
+            <a href="profile.html" class="d-block">
+              <img
+                src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80"
+                class="rounded-circle border shadow-sm" width="40" height="40" alt="Avatar">
+            </a>
+            <a href="notifications.html"
+              class="btn bg-white border shadow-sm p-2 d-flex align-items-center justify-content-center position-relative" style="border-radius: 50%; width: 40px; height: 40px;">
+              <span class="material-icons-round fs-5 text-dark">notifications_none</span>
+              <span
+                class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="margin-top: 5px; margin-left: -5px;"></span>
+            </a>
           </div>
         </div>
 
-        <div class="px-4" style="margin-top: 2.5rem;">
+        <!-- GREETING -->
+        <div class="px-4 mb-3">
+          <h2 class="h5 fw-extrabold mb-0 lh-base text-dark">
+            Salam, Ahmed! 👋
+          </h2>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="px-4 mb-4">
+          <div class="d-flex align-items-center bg-white border shadow-sm" style="border-radius: 12px; padding: 4px;">
+            <span class="material-icons-round text-muted ms-2" style="font-size: 20px;">search</span>
+            <input type="text" class="form-control border-0 shadow-none bg-transparent text-sm px-2" placeholder="Search Brands or Locations" id="mainSearchInput">
+            <button class="btn btn-primary d-flex align-items-center justify-content-center p-2 m-1" style="border-radius: 10px; width: 36px; height: 36px;" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas">
+              <span class="material-icons-round fs-6">tune</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PROMO BANNER -->
+        <div class="px-4 mb-4">
+          <div class="bg-primary text-white position-relative overflow-hidden shadow-sm d-flex align-items-center" style="border-radius: 16px; min-height: 120px;">
+            <div class="ps-3 py-3 pe-2" style="width: 55%; position: relative; z-index: 2;">
+              <h3 class="fw-bold mb-1 text-white" style="font-size: 0.9rem;">Weekend Getaway? 🌴</h3>
+              <p class="mb-2 text-white opacity-75" style="font-size: 0.65rem; line-height: 1.4;">Get 20% OFF all SUVs for bookings over 3 days.</p>
+              <button class="btn btn-light bg-white border-0 text-primary fw-bold text-xs rounded-pill shadow-sm" style="padding: 0.35rem 0.8rem;">Book Now</button>
+            </div>
+            <!-- absolute image -->
+            <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=400&q=80" alt="Promo Car" style="position: absolute; right: -20px; bottom: -20px; height: 130%; width: 55%; object-fit: cover; border-top-left-radius: 60px; z-index: 1;">
+          </div>
+        </div>
+
+        <div class="px-4">
 
           <!-- ACTIVE BOOKING BANNER (If any) -->
           <div id="activeBookingContainer" class="mb-4"></div>
 
           <!-- CATEGORY CHIPS -->
           <div class="h-scroll mb-4 px-1 mx-n1">
-            <div class="chip-filter active">Semua</div>
-            <div class="chip-filter">MPV</div>
-            <div class="chip-filter">City Car</div>
+            <div class="chip-filter active">All</div>
+            <div class="chip-filter">Luxury</div>
+            <div class="chip-filter">Sedan</div>
             <div class="chip-filter">SUV</div>
-            <div class="chip-filter">Premium</div>
+            <div class="chip-filter">Sport</div>
           </div>
 
           <!-- CAR LIST (Dynamic) -->
           <div class="d-flex justify-content-between align-items-end mb-4">
-            <h3 class="h6 fw-bold mb-0">Rekomendasi Terdekat</h3>
-            <a href="map.html" class="text-primary-custom text-decoration-none text-xs fw-semibold">Lihat Peta <span
-                class="material-icons-round text-xs align-middle">arrow_forward</span></a>
+            <h3 class="h6 fw-bold mb-0 text-dark">Top Rated Near You</h3>
+            <a href="map.html" class="text-primary-custom text-decoration-none fw-semibold" style="font-size: 0.75rem;">View All</a>
           </div>
 
           <div id="carList" class="d-flex flex-column gap-4 mb-5">
@@ -190,6 +195,138 @@
         </a>
       </nav>
 
+    </div>
+  </div>
+
+  <!-- FILTER OFFCANVAS -->
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="filterOffcanvas" style="height: 90vh; border-top-left-radius: 24px; border-top-right-radius: 24px;">
+    <div class="offcanvas-header justify-content-center border-bottom position-relative py-3">
+      <button type="button" class="btn text-muted position-absolute start-0 ms-2" data-bs-dismiss="offcanvas">
+        <span class="material-icons-round">close</span>
+      </button>
+      <h5 class="offcanvas-title fw-bold text-dark fs-6" id="filterOffcanvasLabel">Filters</h5>
+    </div>
+    <div class="offcanvas-body" style="padding-bottom: 80px;">
+      
+      <!-- Locations -->
+      <div class="mb-4">
+        <div class="d-flex align-items-center border rounded-3 p-2 mb-2 bg-light">
+          <span class="material-icons-round text-muted mx-2 fs-6">place</span>
+          <input type="text" class="form-control border-0 bg-transparent p-0 text-sm shadow-none" placeholder="Pick-up location">
+        </div>
+        <div class="d-flex align-items-center gap-2 cursor-pointer mt-3">
+          <span class="material-icons-round text-muted fs-5">add</span>
+          <span class="text-xs fw-semibold text-dark">Drop-off at another location</span>
+        </div>
+      </div>
+
+      <!-- Dates -->
+      <div class="row g-3 mb-4">
+        <div class="col-12">
+          <label class="form-label text-xs fw-bold text-dark mb-1">Pick-up Date</label>
+          <div class="d-flex align-items-center border rounded-3 p-2 bg-light position-relative">
+            <span class="material-icons-round text-muted mx-2 fs-6 position-absolute">calendar_today</span>
+            <input type="datetime-local" class="form-control border-0 bg-transparent text-sm shadow-none ps-5 py-1 w-100" value="2025-12-28T10:30" style="cursor: pointer;">
+          </div>
+        </div>
+        <div class="col-12">
+          <label class="form-label text-xs fw-bold text-dark mb-1">Drop-off Date</label>
+          <div class="d-flex align-items-center border rounded-3 p-2 bg-light position-relative">
+            <span class="material-icons-round text-muted mx-2 fs-6 position-absolute">calendar_today</span>
+            <input type="datetime-local" class="form-control border-0 bg-transparent text-sm shadow-none ps-5 py-1 w-100" value="2025-12-28T10:30" style="cursor: pointer;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Brands -->
+      <div class="mb-4">
+        <label class="form-label text-xs fw-bold text-dark mb-2">Brand</label>
+        <div class="h-scroll mx-n3 px-3">
+          <div class="chip-filter active">All</div>
+          <div class="chip-filter">Honda</div>
+          <div class="chip-filter">BMW</div>
+          <div class="chip-filter">Hyundai</div>
+          <div class="chip-filter">Toyota</div>
+        </div>
+      </div>
+
+      <!-- Price Range -->
+      <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <label class="form-label text-xs fw-bold text-dark mb-0">Rent Duration Mode</label>
+          <div class="bg-light rounded-pill p-1 d-flex" id="durationToggleBtn">
+            <span class="px-3 py-1 bg-white rounded-pill text-xs fw-bold shadow-sm cursor-pointer" id="btnHourly">Hourly</span>
+            <span class="px-3 py-1 text-muted text-xs fw-semibold cursor-pointer" id="btnDaily">Daily</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-xs fw-bold text-dark mb-2">Maximum Price</label>
+          <div class="px-2">
+            <input type="range" class="form-range" id="priceRange" min="100000" max="2500000" step="50000" value="1000000">
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-1">
+          <div class="border rounded-3 p-2 bg-light text-center" style="width: 45%;">
+            <div class="text-muted" style="font-size: 0.6rem;">Min</div>
+            <span class="text-xs fw-semibold text-dark">Rp 100.000</span>
+          </div>
+          <div class="border rounded-3 p-2 bg-light text-center" style="width: 45%;">
+            <div class="text-muted" style="font-size: 0.6rem;">Max</div>
+            <span class="text-xs fw-semibold text-dark" id="maxPriceLabel">Rp 1.000.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transmission -->
+      <div class="mb-5">
+        <label class="form-label text-xs fw-bold text-dark mb-2">Transmission</label>
+        <div class="h-scroll mx-n3 px-3">
+          <div class="chip-filter active">All</div>
+          <div class="chip-filter">Manual</div>
+          <div class="chip-filter">Automatic</div>
+          <div class="chip-filter">CVT</div>
+        </div>
+      </div>
+      
+      <!-- Reviews -->
+      <div class="mb-4">
+        <label class="form-label text-xs fw-bold text-dark mb-2">Reviews</label>
+        
+        <label class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3 cursor-pointer">
+          <div class="d-flex align-items-center gap-1 text-warning fs-6">
+            <span class="material-icons-round">star</span>
+            <span class="material-icons-round">star</span>
+            <span class="material-icons-round">star</span>
+            <span class="material-icons-round">star</span>
+            <span class="material-icons-round text-warning position-relative" style="display:inline-block; width:1em; height:1em; overflow:hidden;">
+              star
+              <span class="material-icons-round text-muted opacity-25 position-absolute top-0 start-0" style="clip-path: inset(0 0 0 50%);">star</span>
+            </span>
+            <span class="text-dark text-xs fw-semibold ms-2">4.5 and Above</span>
+          </div>
+          <input class="form-check-input mt-0 shadow-none border-primary" type="radio" name="reviewRadio" checked style="width: 1.25rem; height: 1.25rem; cursor:pointer;">
+        </label>
+        
+        <label class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3 cursor-pointer">
+          <div class="d-flex align-items-center gap-1 text-warning fs-6">
+            <span class="material-icons-round">star</span>
+            <span class="material-icons-round">star</span>
+            <span class="material-icons-round">star</span>
+            <span class="material-icons-round">star</span>
+            <span class="material-icons-round text-muted opacity-25">star</span>
+            <span class="text-dark text-xs fw-semibold ms-2">4.0 and Above</span>
+          </div>
+          <input class="form-check-input mt-0 shadow-none border-primary" type="radio" name="reviewRadio" style="width: 1.25rem; height: 1.25rem; cursor:pointer;">
+        </label>
+        
+      </div>
+
+    </div>
+    
+    <!-- Filter Bottom Action -->
+    <div class="position-absolute bottom-0 start-0 w-100 bg-white border-top p-3 d-flex gap-3">
+      <button class="btn btn-light fw-bold rounded-pill border" style="width: 35%;" data-bs-dismiss="offcanvas">Reset</button>
+      <button class="btn btn-primary fw-bold rounded-pill flex-grow-1 shadow-sm fs-6" data-bs-dismiss="offcanvas">Search</button>
     </div>
   </div>
 
@@ -225,8 +362,8 @@
       function renderCars(filterCategory) {
         let filteredCars = WS_DATA.cars.filter(c => c.status === 'available');
 
-        // Terapkan filter jika bukan 'Semua'
-        if (filterCategory !== 'Semua') {
+        // Terapkan filter jika bukan 'Semua' atau 'All'
+        if (filterCategory !== 'Semua' && filterCategory !== 'All') {
           filteredCars = filteredCars.filter(c => c.category.toLowerCase().includes(filterCategory.toLowerCase()));
         }
 
@@ -243,38 +380,48 @@
 
         // Render daftar mobil
         carListContainer.innerHTML = filteredCars.map(car => `
-          <a href="detail_mobil.html?id=${car.id}" class="ws-card text-decoration-none text-dark d-block">
-            <div class="car-img-wrap" style="height: 180px;">
-              <img src="${car.image}" alt="${car.name}" loading="lazy">
-              <div class="car-price-badge shadow-sm">${formatRupiah(car.price)}<span class="fw-normal text-white-50" style="font-size: 0.75rem;">/hari</span></div>
+          <a href="detail_mobil.html?id=${car.id}" class="ws-card bg-white border-0 shadow-sm text-decoration-none text-dark d-block text-start mb-1" style="border-radius: 16px; overflow: hidden;">
+            <div class="car-img-wrap" style="height: 160px; position: relative;">
+              <img src="${car.image}" alt="${car.name}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+              <button class="btn btn-circle bg-dark bg-opacity-50 text-white border-0 position-absolute" style="top: 10px; right: 10px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons-round" style="font-size: 18px;">bookmark_border</span>
+              </button>
             </div>
             <div class="p-3">
-              <div class="d-flex justify-content-between align-items-start mb-3">
-                <div class="pe-2">
-                  <h4 class="h6 fw-bold mb-2 text-dark">${car.name}</h4>
-                  <div class="d-flex gap-2 flex-wrap">
-                    <span class="badge border text-muted-custom fw-normal py-1 px-2 d-flex align-items-center gap-1" style="background-color: var(--ws-bg);">
-                      <span class="material-icons-round" style="font-size: 14px;">settings</span> ${car.transmission}
-                    </span>
-                    <span class="badge border text-muted-custom fw-normal py-1 px-2 d-flex align-items-center gap-1" style="background-color: var(--ws-bg);">
-                      <span class="material-icons-round" style="font-size: 14px;">airline_seat_recline_normal</span> ${car.seats} Kursi
-                    </span>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center text-warning fw-bold text-sm gap-1 bg-warning bg-opacity-10 px-2 py-1 rounded-pill mt-1">
-                  <span class="material-icons-round fs-6">star</span> ${car.rating}
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-primary bg-opacity-10 text-primary-custom fw-semibold px-2 py-1">${car.category}</span>
+                <div class="d-flex align-items-center text-warning fw-bold text-xs gap-1">
+                  <span class="material-icons-round fs-6">star</span> ${car.rating} <span class="text-muted fw-normal">(${car.reviews})</span>
                 </div>
               </div>
-              <div class="d-flex align-items-center gap-1 text-sm text-muted-custom pt-3 mt-1 border-top" style="border-color: var(--ws-border) !important;">
-                <span class="material-icons-round text-primary-custom opacity-75" style="font-size: 18px;">place</span> ${car.location}
+              <h4 class="h6 fw-bold mb-2 text-dark">${car.name}</h4>
+              <div class="d-flex gap-3 flex-wrap mb-3 border-bottom pb-3" style="border-color: var(--ws-border) !important;">
+                <div class="d-flex align-items-center gap-1 text-muted text-xs">
+                  <span class="material-icons-round text-primary-custom" style="font-size: 16px;">settings</span> ${car.transmission}
+                </div>
+                <div class="d-flex align-items-center gap-1 text-muted text-xs">
+                  <span class="material-icons-round text-primary-custom" style="font-size: 16px;">local_gas_station</span> Petrol
+                </div>
+                <div class="d-flex align-items-center gap-1 text-muted text-xs">
+                  <span class="material-icons-round text-primary-custom" style="font-size: 16px;">airline_seat_recline_normal</span> ${car.seats} Seats
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-baseline gap-1">
+                  <span class="h6 fw-bold mb-0 text-dark">${formatRupiah(car.price)}</span>
+                  <span class="text-xs text-muted">/ day</span>
+                </div>
+                <div class="d-flex align-items-center gap-1 text-xs text-muted">
+                  <span class="material-icons-round text-black-50" style="font-size: 14px;">place</span> ${car.location.split(',')[0]}
+                </div>
               </div>
             </div>
           </a>
         `).join('');
       }
 
-      // Load inisial ('Semua')
-      renderCars('Semua');
+      // Load inisial ('All')
+      renderCars('All');
 
       // Setup Chips Filter Logic
       const chips = document.querySelectorAll('.chip-filter');
@@ -282,9 +429,37 @@
         chip.addEventListener('click', () => {
           chips.forEach(c => c.classList.remove('active'));
           chip.classList.add('active');
-          renderCars(chip.textContent.trim());
+          let f = chip.textContent.trim();
+          renderCars(f === 'All' ? 'Semua' : (f === 'Luxury' ? 'Premium' : f));
         });
       });
+
+      // Setup UI Interactions for Filter offcanvas
+      const btnHourly = document.getElementById('btnHourly');
+      const btnDaily = document.getElementById('btnDaily');
+      if (btnHourly && btnDaily) {
+        btnHourly.addEventListener('click', () => {
+          btnHourly.classList.add('bg-white', 'shadow-sm', 'text-dark');
+          btnHourly.classList.remove('text-muted');
+          btnDaily.classList.remove('bg-white', 'shadow-sm', 'text-dark');
+          btnDaily.classList.add('text-muted');
+        });
+        btnDaily.addEventListener('click', () => {
+          btnDaily.classList.add('bg-white', 'shadow-sm', 'text-dark');
+          btnDaily.classList.remove('text-muted');
+          btnHourly.classList.remove('bg-white', 'shadow-sm', 'text-dark');
+          btnHourly.classList.add('text-muted');
+        });
+      }
+      
+      const priceRange = document.getElementById('priceRange');
+      const maxPriceLabel = document.getElementById('maxPriceLabel');
+      if (priceRange && maxPriceLabel) {
+        priceRange.addEventListener('input', (e) => {
+          const val = parseInt(e.target.value);
+          maxPriceLabel.textContent = formatRupiah(val);
+        });
+      }
     });
   </script>
 

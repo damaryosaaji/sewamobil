@@ -17,11 +17,11 @@
     
     .btn-back-float {
       position: absolute; top: 1rem; left: 1rem; z-index: 10;
-      background: rgba(255,255,255,0.8); backdrop-filter: blur(4px);
+      background: #ffffff; 
     }
     .btn-fav-float {
       position: absolute; top: 1rem; right: 1rem; z-index: 10;
-      background: rgba(255,255,255,0.8); backdrop-filter: blur(4px);
+      background: #ffffff;
     }
 
     .detail-body {
@@ -53,6 +53,9 @@
     .mobile-frame .sticky-action-bar {
       position: absolute; width: 100%;
     }
+    
+    .nav-pills .nav-link { color: var(--ws-secondary); }
+    .nav-pills .nav-link.active { background-color: white; color: var(--ws-primary); box-shadow: var(--ws-shadow-sm); }
   </style>
 </head>
 <body class="bg-light">
@@ -62,94 +65,224 @@
     
     <div class="mobile-content p-0" style="padding-bottom: 0;">
       
-      <!-- Gallery -->
-      <div class="car-gallery" id="carGallery">
-        <a href="home.html" class="btn btn-circle btn-back-float shadow-sm border-0"><span class="material-icons-round">arrow_back</span></a>
-        <button class="btn btn-circle btn-fav-float shadow-sm border-0"><span class="material-icons-round text-danger">favorite_border</span></button>
-        <!-- Dummy Image (will be replaced by JS) -->
-        <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800" alt="Car" id="carMainImg">
+      <!-- Gallery (Carousel) -->
+      <div class="car-gallery position-relative" id="carGallery" style="height: 380px;">
+        <a href="home.html" class="btn btn-back-float shadow-sm border border-light p-2 d-flex align-items-center justify-content-center" style="border-radius: 12px; width: 40px; height: 40px;"><span class="material-icons-round text-dark fs-5">arrow_back</span></a>
+        <button class="btn btn-fav-float shadow-sm border border-light p-2 d-flex align-items-center justify-content-center" style="border-radius: 12px; width: 40px; height: 40px;"><span class="material-icons-round text-dark fs-5">bookmark_border</span></button>
+        
+        <div id="carImageCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+          <div class="carousel-indicators" style="bottom: 20px; z-index: 10;">
+            <button type="button" data-bs-target="#carImageCarousel" data-bs-slide-to="0" class="active" aria-current="true" style="width: 8px; height: 8px; border-radius: 50%;"></button>
+            <button type="button" data-bs-target="#carImageCarousel" data-bs-slide-to="1" style="width: 8px; height: 8px; border-radius: 50%;"></button>
+            <button type="button" data-bs-target="#carImageCarousel" data-bs-slide-to="2" style="width: 8px; height: 8px; border-radius: 50%;"></button>
+          </div>
+          <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100">
+              <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800" class="d-block w-100 h-100" alt="Car" id="carMainImg" style="object-fit: cover;">
+            </div>
+            <div class="carousel-item h-100">
+              <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800" class="d-block w-100 h-100" alt="Car 2" style="object-fit: cover;">
+            </div>
+            <div class="carousel-item h-100">
+              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800" class="d-block w-100 h-100" alt="Car 3" style="object-fit: cover;">
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Detail Body -->
-      <div class="detail-body">
+      <div class="detail-body bg-white shadow-lg" style="border-radius: 32px 32px 0 0; margin-top: -32px; padding: 1.5rem 1.75rem 6.5rem;">
         
-        <div class="d-flex justify-content-between align-items-start mb-2">
-          <h1 class="h4 fw-extrabold mb-0 lh-sm" id="carName">Toyota Avanza G</h1>
-          <div class="d-flex align-items-center text-warning fw-bold bg-white px-2 py-1 rounded-pill border">
-            <span class="material-icons-round fs-6 me-1">star</span> <span id="carRating">4.8</span>
+        <!-- Drag handle line -->
+        <div class="mx-auto mb-4" style="width: 40px; height: 4px; background: #e0e0e0; border-radius: 2px;"></div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="badge bg-primary bg-opacity-10 text-primary-custom px-3 py-2 rounded-pill fw-semibold text-xs" id="carCatLabel">SUV</span>
+          <div class="d-flex align-items-center text-warning fw-bold text-sm gap-1">
+            <span class="material-icons-round fs-6">star</span> <span id="carRating">4.8</span> <span class="text-muted fw-normal" id="carReviews">(23 Reviews)</span>
           </div>
         </div>
         
-        <div class="d-flex align-items-center gap-1 text-sm text-muted-custom mb-4">
-          <span class="material-icons-round fs-6">place</span> <span id="carLocation">Jakarta Selatan</span>
-        </div>
-
-        <!-- Spesifikasi Grid -->
-        <h2 class="h6 fw-bold mb-3">Spesifikasi</h2>
-        <div class="row g-2 text-center mb-4">
-          <div class="col-3">
-            <div class="spec-icon mx-auto shadow-sm"><span class="material-icons-round">airline_seat_recline_normal</span></div>
-            <div class="text-xs fw-semibold" id="carSeats">7 Kursi</div>
-          </div>
-          <div class="col-3">
-            <div class="spec-icon mx-auto shadow-sm"><span class="material-icons-round">settings</span></div>
-            <div class="text-xs fw-semibold" id="carTrans">Auto</div>
-          </div>
-          <div class="col-3">
-            <div class="spec-icon mx-auto shadow-sm"><span class="material-icons-round">local_gas_station</span></div>
-            <div class="text-xs fw-semibold">Bensin</div>
-          </div>
-          <div class="col-3">
-            <div class="spec-icon mx-auto shadow-sm"><span class="material-icons-round">directions_car</span></div>
-            <div class="text-xs fw-semibold" id="carCat">MPV</div>
+        <h1 class="h4 fw-extrabold mb-2 text-dark lh-sm" id="carName">Toyota Land Cruiser GXR</h1>
+        
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <span class="text-muted text-xs fw-medium" id="carSubtitle">2024 • Grand Touring</span>
+          <div class="d-flex align-items-center gap-1 text-success text-xs fw-semibold">
+            <span class="material-icons-round fs-6">event_available</span> Available Today
           </div>
         </div>
 
-        <hr class="text-secondary opacity-25 my-4">
-
-        <!-- Host Profile -->
-        <h2 class="h6 fw-bold mb-3">Tentang Mitra</h2>
-        <div class="ws-card p-3 mb-4 d-flex align-items-center gap-3 border-0">
-          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=150&h=150&q=80" 
-               alt="Host" id="hostAvatar" class="rounded-circle" width="56" height="56" style="object-fit:cover;">
-          <div class="flex-grow-1">
-            <div class="d-flex gap-2 align-items-center mb-1">
-              <h3 class="h6 fw-bold mb-0" id="hostName">Budi Santoso</h3>
-              <span class="material-icons-round text-success" style="font-size: 16px;">verified</span>
-            </div>
-            <div class="text-xs text-muted-custom">Bergabung <span id="hostJoin">Jan 2023</span> · <span id="hostTrips">45</span> Perjalanan</div>
-          </div>
-          <button class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold">Chat</button>
+        <div class="d-flex align-items-center gap-1 text-sm text-primary-custom mb-4 font-weight-bold">
+          <span class="material-icons-round fs-6 opacity-75">place</span> <span id="carLocation" class="text-muted">Kingdom Centre, Riyadh</span>
         </div>
 
-        <hr class="text-secondary opacity-25 my-4">
+        <!-- Specifications Chips -->
+        <div class="d-flex flex-wrap gap-2 mb-4 border-bottom pb-4" style="border-color: var(--ws-border) !important;">
+          <div class="border text-primary-custom fw-semibold px-2 py-1 rounded d-flex align-items-center gap-1 text-xs bg-white" style="border-color: var(--ws-border) !important;">
+            <span class="material-icons-round text-primary-custom opacity-75 fs-6">settings</span> <span id="carTrans">Automatic</span>
+          </div>
+          <div class="border text-primary-custom fw-semibold px-2 py-1 rounded d-flex align-items-center gap-1 text-xs bg-white" style="border-color: var(--ws-border) !important;">
+            <span class="material-icons-round text-primary-custom opacity-75 fs-6">local_gas_station</span> Petrol
+          </div>
+          <div class="border text-primary-custom fw-semibold px-2 py-1 rounded d-flex align-items-center gap-1 text-xs bg-white" style="border-color: var(--ws-border) !important;">
+            <span class="material-icons-round text-primary-custom opacity-75 fs-6">airline_seat_recline_normal</span> <span id="carSeats">6 Seats</span>
+          </div>
+          <div class="border text-primary-custom fw-semibold px-2 py-1 rounded d-flex align-items-center gap-1 text-xs bg-white" style="border-color: var(--ws-border) !important;">
+            <span class="material-icons-round text-primary-custom opacity-75 fs-6">speed</span> V6 Turbo
+          </div>
+        </div>
 
-        <!-- Rules -->
-        <h2 class="h6 fw-bold mb-3">Syarat & Ketentuan</h2>
-        <ul class="text-sm text-muted-custom ps-3 lh-lg mb-0" style="font-family: 'Inter', sans-serif;">
-          <li>KTP dan SIM A Wajib (E-KYC)</li>
-          <li>Dilarang merokok di dalam mobil</li>
-          <li>BBM dikembalikan sesuai indikator awal</li>
-          <li>Keterlambatan didenda Rp 50.000/jam</li>
+        <!-- Tabs Nav -->
+        <ul class="nav nav-pills mb-4 d-flex bg-light p-1 rounded-pill" id="detailTabs" role="tablist">
+          <li class="nav-item flex-fill text-center" role="presentation">
+            <button class="nav-link active w-100 rounded-pill fw-bold text-sm py-2" id="overview-tab" data-bs-toggle="pill" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+          </li>
+          <li class="nav-item flex-fill text-center" role="presentation">
+            <button class="nav-link w-100 rounded-pill fw-bold text-sm py-2" id="review-tab" data-bs-toggle="pill" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">Review</button>
+          </li>
         </ul>
+
+        <!-- Tabs Content -->
+        <div class="tab-content" id="detailTabsContent">
+          
+          <!-- TAB OVERVIEW -->
+          <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+            <!-- Overview -->
+            <h2 class="h6 fw-bold mb-2 text-dark">Overview</h2>
+        <div class="mb-4 text-muted" style="font-size: 0.75rem; line-height: 1.6;">
+          <span id="overviewShortText">Experience the ultimate comfort and power. This vehicle is perfect for family trips or business travel. Thoroughly maintained with premium features included......</span>
+          <span id="overviewFullText" class="d-none">Experience the ultimate comfort and power. This vehicle is perfect for family trips or business travel. Thoroughly maintained with premium features included. It offers an advanced infotainment system, spacious seating for all passengers, top-of-the-line safety features, and a superior driving experience on both city roads and off-road tracks.</span>
+          <a href="#" id="toggleOverviewBtn" class="text-primary-custom fw-bold text-decoration-none ms-1">Read More</a>
+        </div>
+        
+        <!-- Rental Condition -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="h6 fw-bold mb-0 text-dark">Rental Condition</h2>
+          <a href="#" data-bs-toggle="offcanvas" data-bs-target="#rentalConditionOffcanvas" class="text-primary-custom text-decoration-none fw-semibold" style="font-size: 0.75rem;">See all</a>
+        </div>
+        
+        <div class="row g-2 mb-4 pb-2 border-bottom" style="border-color: var(--ws-border) !important;">
+          <div class="col-6">
+            <div class="bg-light p-2 rounded-3 text-start" style="height: 100%;">
+              <div class="text-xs text-muted mb-1">Milage</div>
+              <div class="text-dark fw-bold text-sm mb-1">350 km / day</div>
+              <div class="text-muted" style="font-size: 0.65rem;">(0.75 SAR per extra km)</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="bg-light p-2 rounded-3 text-start" style="height: 100%;">
+              <div class="text-xs text-muted mb-1">Insurance</div>
+              <div class="text-dark fw-bold text-sm mb-1">Basic TPL Included</div>
+              <div class="text-primary-custom" style="font-size: 0.65rem;">Upgrade to Full Coverage</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Renter Profile -->
+        <h2 class="h6 fw-bold mb-3 text-dark">Renter Profile</h2>
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=150&h=150&q=80" 
+               alt="Host" id="hostAvatar" class="rounded-circle" width="48" height="48" style="object-fit:cover;">
+          <div class="flex-grow-1">
+            <div class="d-flex gap-1 align-items-center mb-1">
+              <h3 class="fw-bold mb-0 text-dark" id="hostName" style="font-size: 0.85rem;">Al-Falah VIP Fleet</h3>
+              <span class="material-icons-round text-success bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="font-size: 12px; width: 16px; height: 16px;">check</span>
+            </div>
+            <div class="text-muted" style="font-size: 0.7rem;">Responds within 5 mins</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-circle bg-primary bg-opacity-10 text-primary-custom d-flex align-items-center justify-content-center border-0 p-0" style="width: 36px; height: 36px;">
+              <span class="material-icons-round fs-6">phone</span>
+            </button>
+            <button class="btn btn-circle bg-primary bg-opacity-10 text-primary-custom d-flex align-items-center justify-content-center border-0 p-0" style="width: 36px; height: 36px;">
+              <span class="material-icons-round fs-6">chat</span>
+            </button>
+          </div>
+        </div>
+          </div> <!-- End Tab Overview -->
+
+          <!-- TAB REVIEW -->
+          <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+            <!-- Reviews Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="h6 fw-bold mb-0 text-dark">Reviews (23)</h2>
+          <div class="d-flex align-items-center gap-1 text-warning fw-bold text-sm">
+            <span class="material-icons-round fs-6">star</span> 4.8
+          </div>
+        </div>
+        
+        <div class="d-flex flex-column gap-3 mb-4 pb-2">
+          <!-- Review Item 1 -->
+          <div>
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="User" class="rounded-circle" width="32" height="32" style="object-fit:cover;">
+                <div>
+                  <div class="text-dark fw-bold text-xs mb-0">Reza Radian</div>
+                  <div class="text-muted" style="font-size: 0.65rem;">2 days ago</div>
+                </div>
+              </div>
+              <div class="d-flex text-warning" style="font-size: 14px;">
+                <span class="material-icons-round">star</span><span class="material-icons-round">star</span><span class="material-icons-round">star</span><span class="material-icons-round">star</span><span class="material-icons-round">star</span>
+              </div>
+            </div>
+            <p class="text-muted m-0" style="font-size: 0.75rem; line-height: 1.5;">Mobil sangat bersih dan terawat. Tuan rumah juga ramah dan merespons dengan cepat. Sangat direkomendasikan!</p>
+          </div>
+          <!-- Review Item 2 -->
+          <div class="border-top pt-3">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=facearea&facepad=2&w=100&h=100&q=80" alt="User" class="rounded-circle" width="32" height="32" style="object-fit:cover;">
+                <div>
+                  <div class="text-dark fw-bold text-xs mb-0">Siti Aminah</div>
+                  <div class="text-muted" style="font-size: 0.65rem;">1 week ago</div>
+                </div>
+              </div>
+              <div class="d-flex text-warning" style="font-size: 14px;">
+                <span class="material-icons-round">star</span><span class="material-icons-round">star</span><span class="material-icons-round">star</span><span class="material-icons-round">star</span><span class="material-icons-round text-muted opacity-25">star</span>
+              </div>
+            </div>
+            <p class="text-muted m-0" style="font-size: 0.75rem; line-height: 1.5;">Nyaman untuk perjalanan jauh. Ac dingin dan bensin cukup irit. Proses serah terima kunci sangat mudah.</p>
+          </div>
+        </div>
+        <button class="btn btn-outline-primary w-100 rounded-pill fw-semibold text-sm py-2">Lihat Semua Ulasan</button>
+          </div> <!-- End Tab Review -->
+        </div> <!-- End Tab Content -->
 
       </div>
 
     </div>
 
     <!-- Sticky Bottom ACTION -->
-    <div class="sticky-action-bar">
-      <div>
-        <div class="text-xs text-muted-custom fw-semibold mb-1">Harga Sewa</div>
-        <div class="d-flex align-items-baseline gap-1">
-          <span class="h5 fw-extrabold text-primary-custom mb-0" id="carPriceLabel">Rp 350.000</span>
-          <span class="text-xs text-muted-custom">/hari</span>
-        </div>
+    <div class="sticky-action-bar" style="border-radius: 20px 20px 0 0; padding: 1.25rem 1.5rem;">
+      <div class="d-flex align-items-baseline gap-1 flex-grow-1">
+        <span class="h5 fw-extrabold text-dark mb-0" id="carPriceLabel">450 SAR</span>
+        <span class="text-muted text-xs">/ day</span>
       </div>
-      <a href="kyc.html" class="btn btn-primary btn-lg rounded-pill px-4 shadow-sm" style="min-width: 140px;">Lanjut Pesan</a>
+      <a href="kyc.html" class="btn btn-primary rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center" style="min-width: 180px; padding: 0.8rem 1rem;">Book Now</a>
     </div>
 
   </div>
+
+  <!-- Offcanvas Rental Condition -->
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="rentalConditionOffcanvas" style="height: 65vh; border-top-left-radius: 24px; border-top-right-radius: 24px;">
+    <div class="offcanvas-header justify-content-center border-bottom position-relative py-3">
+      <button type="button" class="btn text-muted position-absolute start-0 ms-2" data-bs-dismiss="offcanvas">
+          <span class="material-icons-round">close</span>
+      </button>
+      <h5 class="offcanvas-title fw-bold text-dark fs-6">Detail Rental Condition</h5>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="list-group list-group-flush text-sm text-dark">
+           <li class="list-group-item bg-transparent border-0 px-0 pb-3"><span class="fw-bold text-muted d-block text-xs mb-1">Jarak Tempuh (Milage)</span> 350 km / hari sudah termasuk. (Biaya tambahan 0.75 SAR per km ekstra).</li>
+           <li class="list-group-item bg-transparent border-0 px-0 pb-3"><span class="fw-bold text-muted d-block text-xs mb-1">Asuransi</span> Basic TPL (Third Party Liability) sudah termasuk. Opsi Full Coverage tersedia.</li>
+           <li class="list-group-item bg-transparent border-0 px-0 pb-3"><span class="fw-bold text-muted d-block text-xs mb-1">Kebijakan Bahan Bakar</span> Same to same. Harap mengembalikan mobil dengan kapasitas BBM yang sama.</li>
+           <li class="list-group-item bg-transparent border-0 px-0 pb-3"><span class="fw-bold text-muted d-block text-xs mb-1">Syarat Umur</span> Minimal berusia 21 tahun untuk menyewa kendaraan ini.</li>
+           <li class="list-group-item bg-transparent border-0 px-0 pb-3"><span class="fw-bold text-muted d-block text-xs mb-1">Deposit Keamanan</span> Deposit 1000 SAR dibutuhkan saat penjemputan unit.</li>
+        </ul>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -167,21 +300,45 @@ document.addEventListener('DOMContentLoaded', () => {
   // Populate DOM
   if(car) {
     document.getElementById('carMainImg').src = car.image;
-    document.getElementById('carName').textContent = `${car.name} ${car.year}`;
-    document.getElementById('carRating').textContent = `${car.rating} (${car.reviews})`;
-    document.getElementById('carLocation').textContent = car.location;
-    document.getElementById('carSeats').textContent = `${car.seats} Kursi`;
-    document.getElementById('carTrans').textContent = car.transmission === 'Automatic' ? 'Auto' : 'Manual';
-    document.getElementById('carCat').textContent = car.category;
+    document.getElementById('carName').textContent = car.name;
+    document.getElementById('carSubtitle').textContent = `${car.year} • Touring`;
+    document.getElementById('carRating').textContent = car.rating;
+    document.getElementById('carReviews').textContent = `(${car.reviews} Reviews)`;
+    document.getElementById('carLocation').textContent = car.location.split(',')[0];
+    document.getElementById('carSeats').textContent = `${car.seats} Seats`;
+    document.getElementById('carTrans').textContent = car.transmission === 'Automatic' ? 'Automatic' : 'Manual';
+    document.getElementById('carCatLabel').textContent = car.category;
     document.getElementById('carPriceLabel').textContent = formatRupiah(car.price);
   }
   
   if(host) {
     document.getElementById('hostName').textContent = host.name;
     document.getElementById('hostAvatar').src = host.avatar;
-    document.getElementById('hostJoin').textContent = host.joinDate;
-    document.getElementById('hostTrips').textContent = host.totalTrips || Math.floor(Math.random() * 50) + 10;
+    // Removed hostJoin and hostTrips as they do not exist in the new UI layout
   }
+  
+  // Interaction bindings
+  const toggleOverviewBtn = document.getElementById('toggleOverviewBtn');
+  const overviewShortText = document.getElementById('overviewShortText');
+  const overviewFullText = document.getElementById('overviewFullText');
+  
+  if(toggleOverviewBtn && overviewShortText && overviewFullText) {
+    toggleOverviewBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if(overviewShortText.classList.contains('d-none')) {
+        // Show short
+        overviewShortText.classList.remove('d-none');
+        overviewFullText.classList.add('d-none');
+        toggleOverviewBtn.textContent = 'Read More';
+      } else {
+        // Show full
+        overviewShortText.classList.add('d-none');
+        overviewFullText.classList.remove('d-none');
+        toggleOverviewBtn.textContent = 'Read Less';
+      }
+    });
+  }
+  
 });
 </script>
 
